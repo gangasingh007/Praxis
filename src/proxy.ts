@@ -1,0 +1,38 @@
+import { NextRequest, NextResponse } from "next/server";
+import { decrypt, AUTH_COOKIE_NAME } from "@/lib/auth";
+
+// Public routes that don't require authentication
+const publicRoutes = ["/", "/login", "/register"];
+
+export default async function middleware(request: NextRequest) {
+  const path = request.nextUrl.pathname;
+  const isPublicRoute = publicRoutes.includes(path);
+
+  const cookie = request.cookies.get(AUTH_COOKIE_NAME)?.value;
+  let session = null;
+  
+  if (cookie) {
+    try {
+      session = await decrypt(cookie);
+    } catch (e) {
+      // Invalid session
+    }
+  }
+
+  // Redirect to login if accessing a protected route without a session
+  if (!isPublicRoute && !session) {
+    return NextResponse.redirect(new URL("/login", request.nextUrl));
+  }
+
+  // Redirect to dashboard if accessing a public route with a session
+  if (isPublicRoute && session && path !== "/") {
+    return NextResponse.redirect(new URL("/planner", request.nextUrl));
+  }
+
+  return NextResponse.next();
+}
+
+// Routes Middleware should not run on
+export const config = {
+  matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
+};

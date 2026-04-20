@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model User {
+  id               String            @id @default(cuid())
+  email            String            @unique
+  name             String?
+  password         String            // Hashed password
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  tasks            Task[]
+  subjects         Subject[]
+  habits           Habit[]
+  pomodoroSessions PomodoroSession[]
+}
+
+model Subject {
+  id          String   @id @default(cuid())
+  name        String
+  colorCode   String 
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tasks       Task[]
+  createdAt   DateTime @default(now())
+
+  @@unique([name, userId])
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model Task {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  isCompleted Boolean   @default(false)
+  priority    Priority  @default(MEDIUM)
+  date        DateTime  // The day the task is scheduled
+  startTime   DateTime? // Specific block start
+  endTime     DateTime? // Specific block end
+
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  subjectId   String?
+  subject     Subject?  @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+
+  pomodoros   PomodoroSession[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Habit {
+  id               String   @id @default(cuid())
+  name             String
+  description      String?
+  currentStreak    Int      @default(0)
+  longestStreak    Int      @default(0)
+  lastCompletedAt  DateTime?
+  
+  // AI Integration Field
+  lastAiRewardText String?  @db.Text 
+  
+  userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt        DateTime @default(now())
+}
+
+model PomodoroSession {
+  id          String   @id @default(cuid())
+  duration    Int      // Duration in minutes
+  completedAt DateTime @default(now())
+  
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  taskId      String?
+  task        Task?    @relation(fields: [taskId], references: [id], onDelete: SetNull)
+}
