@@ -62,19 +62,19 @@ A telemetry dashboard utilizing Recharts to map your focus hours, subject distri
 To spin up the Praxis environment locally, ensure you have [Bun](https://bun.sh/) installed for optimal package execution.
 
 ### 1. Clone the repository
-\`\`\`bash
+```bash
 git clone https://github.com/yourusername/praxis.git
 cd praxis
-\`\`\`
+```
 
 ### 2. Install dependencies
-\`\`\`bash
+```bash
 bun install
-\`\`\`
+```
 
 ### 3. Configure Environment Variables
 Create a `.env` file in the root directory and add your secure keys:
-\`\`\`env
+```env
 # Database (PostgreSQL / Supabase / Neon)
 DATABASE_URL="postgresql://user:password@localhost:5432/praxis"
 
@@ -84,25 +84,25 @@ CLERK_SECRET_KEY="sk_test_..."
 
 # Groq AI
 GROQ_API_KEY="gsk_..."
-\`\`\`
+```
 
 ### 4. Provision the Database
 Push the Prisma schema to your PostgreSQL instance:
-\`\`\`bash
+```bash
 bunx prisma db push
-\`\`\`
+```
 
 ### 5. Execute the System
-\`\`\`bash
+```bash
 bun run dev
-\`\`\`
+```
 Navigate to `http://localhost:3000` to access the Praxis terminal.
 
 ---
 
 ## 📂 File Structure Overview
 
-\`\`\`text
+```text
 src/
 ├── actions/             # Next.js Server Actions (Database mutations, Groq AI calls)
 ├── app/                 # App Router (Pages, Layouts, Auth Routes)
@@ -114,7 +114,7 @@ src/
 ├── hooks/               # Custom React hooks (usePomodoro)
 ├── lib/                 # Utility functions (Prisma client, cn merge)
 └── prisma/              # Schema and migrations
-\`\`\`
+```
 
 ---
 
