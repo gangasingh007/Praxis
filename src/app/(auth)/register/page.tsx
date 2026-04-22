@@ -21,32 +21,6 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
 
-/* ── tiny typed-text for the tagline ── */
-function TypedTagline({ text }: { text: string }) {
-  const [displayed, setDisplayed] = useState("");
-  const done = useRef(false);
-
-  useEffect(() => {
-    if (done.current) return;
-    done.current = true;
-    let i = 0;
-    const id = setInterval(() => {
-      setDisplayed(text.slice(0, ++i));
-      if (i >= text.length) clearInterval(id);
-    }, 40);
-    return () => clearInterval(id);
-  }, [text]);
-
-  return (
-    <span className="font-mono">
-      {displayed}
-      {displayed.length < text.length && (
-        <span className="inline-block w-[2px] h-[1em] bg-primary align-middle ml-px animate-pulse" />
-      )}
-    </span>
-  );
-}
-
 function Particle({ style }: { style: React.CSSProperties }) {
   return (
     <div
@@ -140,9 +114,6 @@ export default function RegisterPage() {
                 .
               </span>
             </h1>
-            <p className="text-muted-foreground/70 text-sm mt-2 h-5">
-              <TypedTagline text="Join the elite force of high-performers" />
-            </p>
           </div>
         </div>
 

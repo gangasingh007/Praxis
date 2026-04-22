@@ -144,11 +144,6 @@ export function PlannerBoard() {
                   Add Task
                 </span>
               </button>
-
-              <button className="group flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-background hover:bg-primary/90 transition-all duration-200 text-sm font-bold uppercase tracking-wider shadow-[0_0_20px_hsl(var(--primary)/0.25)] hover:shadow-[0_0_30px_hsl(var(--primary)/0.4)] hover:-translate-y-px active:translate-y-0">
-                <Share2 size={14} />
-                <span className="hidden sm:inline">Share</span>
-              </button>
             </div>
           </div>
         </header>

@@ -154,9 +154,6 @@ export default function LoginPage() {
                 .
               </span>
             </h1>
-            <p className="text-muted-foreground/70 text-sm mt-2 h-5">
-              <TypedTagline text="Initialize your command center" />
-            </p>
           </div>
         </div>
 

@@ -208,8 +208,6 @@ export function FocusTimer() {
 
   return (
     <>
-     
-
       <div className="flex flex-col gap-4 w-5xl mx-auto p-4 bg-background text-foreground min-h-screen">
       {/* header section */}
         <div className="flex flex-col items-start ">
