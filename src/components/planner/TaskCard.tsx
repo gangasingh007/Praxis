@@ -50,7 +50,7 @@ export function TaskCard({ id, title, priority = "MEDIUM", subjectColor, onClick
     >
       <div 
         className="w-1.5 h-full rounded-full shrink-0" 
-        style={{ backgroundColor: subjectColor || "var(--muted)" }} 
+        style={{ backgroundColor: subjectColor || "grey" }} 
       />
       <div 
         {...listeners} 

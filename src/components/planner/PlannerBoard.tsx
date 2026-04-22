@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { DndContext, DragEndEvent, closestCenter } from "@dnd-kit/core";
 import { TaskCard } from "./TaskCard";
 import { TimeBlock } from "./TimeBlock";
-import { toast } from "sonner";
 import { CurrentTime } from "./CurrentTime";
 import { MiniCalendar } from "./MiniCalendar";
 import { useTasks } from "@/hooks/use-tasks";
@@ -114,7 +113,7 @@ export function PlannerBoard() {
             >
               Add Task
             </button>
-            <button className="px-4 py-2 text-sm font-bold bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-all active:scale-95 shadow-lg shadow-primary/20">
+            <button className="px-4 py-2 text-sm font-bold bg-primary text-background rounded-xl hover:bg-primary/90 transition-all active:scale-95 shadow-lg shadow-primary/20">
               Share Plan
             </button>
           </div>

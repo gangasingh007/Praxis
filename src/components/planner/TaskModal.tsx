@@ -41,7 +41,7 @@ export function TaskModal({ isOpen, onClose, onSave, onDelete, task, subjects = 
           <h2 className="text-xl font-bold tracking-tight text-card-foreground">
             {task ? "Edit Task" : "New Task"}
           </h2>
-          <button onClick={onClose} className="p-2 hover:bg-accent rounded-full transition-colors">
+          <button onClick={onClose} className="p-2 border border-input hover:bg-accent/10 cursor-pointer hover:border-border  rounded-full transition-colors">
             <X size={20} className="text-muted-foreground" />{}
           </button>
         </div>
@@ -110,7 +110,7 @@ export function TaskModal({ isOpen, onClose, onSave, onDelete, task, subjects = 
           {task && onDelete ? (
             <button
               onClick={() => onDelete(task.id)}
-              className="px-4 py-2 text-sm font-medium text-destructive hover:bg-destructive/10 rounded-xl transition-colors"
+              className="px-4 py-2 text-sm font-medium border border-destructive/40 text-destructive hover:bg-destructive/10 rounded-xl transition-colors"
             >
               Delete
             </button>
@@ -121,7 +121,7 @@ export function TaskModal({ isOpen, onClose, onSave, onDelete, task, subjects = 
           <div className="flex gap-3">
             <button
               onClick={onClose}
-              className="px-6 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              className="px-6 py-2 border border-input rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               Cancel
             </button>
@@ -133,7 +133,7 @@ export function TaskModal({ isOpen, onClose, onSave, onDelete, task, subjects = 
                 priority 
               })}
               disabled={!title.trim()}
-              className="px-6 py-2 text-sm font-bold bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-all shadow-lg shadow-primary/20"
+              className="px-6 py-2 text-sm font-bold bg-primary text-background hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-all shadow-lg shadow-primary/20"
             >
               Save Task
             </button>

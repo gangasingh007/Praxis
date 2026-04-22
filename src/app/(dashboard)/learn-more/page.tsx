@@ -180,7 +180,7 @@ export default function DocumentationPage() {
   return (
     <div
       ref={containerRef}
-      className="max-w-7xl mx-auto p-6 py-12 md:py-24 font-sans flex flex-col md:flex-row gap-12 relative items-start"
+      className="max-w-7xl mx-auto p-6 py-12 md:py-24 font-mono flex flex-col md:flex-row gap-12 relative items-start"
     >
     
       <aside className="hidden md:flex flex-col w-64 shrink-0 sticky top-24 space-y-8 h-[calc(100vh-8rem)]">
