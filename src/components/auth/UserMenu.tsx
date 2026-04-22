@@ -21,6 +21,8 @@ export function UserMenu({ user }: UserMenuProps) {
       <button 
         onClick={() => setIsOpen(!isOpen)}
         className="w-7 h-7 rounded-lg bg-white/60 border border-border flex items-center justify-center dark:text-background font-black text-[15px]  p-4 hover:bg-white/50 dark:hover:text-background transition-all duration-300 shadow-lg shadow-primary/10 active:scale-95 overflow-hidden"
+        aria-label="Open user menu"
+        title="Open user menu"
       >
         <span className="relative z-10">
           {(user.name?.[0] || user.email[0]).toUpperCase()}

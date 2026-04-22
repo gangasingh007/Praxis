@@ -83,8 +83,10 @@ export function Sidebar() {
           {/* Desktop Collapse Toggle */}
           <button 
             onClick={toggleCollapse}
-            className="hidden lg:flex w-6 h-6 items-center justify-center rounded-md border border-border hover:bg-accent transition-colors text-muted-foreground hover:text-foreground"
-          >{}
+            className="hidden lg:flex w-6 h-6 items-center justify-center cursor-pointer hovver:bg-accent transition-colors rounded-md border border-border hover:bg-accent transition-colors text-muted-foreground hover:text-foreground"
+            aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+            title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+          >
             <ChevronLeft size={14} className={cn("transition-transform duration-300", isCollapsed && "rotate-180")} />
           </button>
 
@@ -92,7 +94,9 @@ export function Sidebar() {
           <button 
             onClick={() => setOpen(false)}
             className="lg:hidden w-8 h-8 flex items-center justify-center rounded-lg border border-border hover:bg-accent transition-colors"
-          >{}
+            aria-label="Close sidebar"
+            title="Close sidebar"
+          >
             <X size={18} />
           </button>
         </div>
@@ -107,6 +111,7 @@ export function Sidebar() {
                 href={item.href} 
                 className="relative block group"
                 title={isCollapsed ? item.name : undefined}
+                aria-label={isCollapsed ? item.name : undefined}
               >
                 {isActive && (
                   <motion.div
@@ -139,7 +144,12 @@ export function Sidebar() {
         </nav>
 
         {/* Footer  */}
-        <Link href="/learn-more" className="p-4 border-t border-border/50">
+        <Link 
+          href="/learn-more" 
+          className="p-4 border-t border-border/50"
+          title="Learn More"
+          aria-label="Learn More"
+        >
           <div className={cn(
             "p-3 rounded-2xl border border-border/50 bg-muted/30 flex items-center gap-3",
             isCollapsed && "justify-center px-0"
