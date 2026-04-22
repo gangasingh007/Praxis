@@ -1,4 +1,4 @@
-<div align="center">
+
 # ⚡️ PRAXIS
 **The Cognitive Operating System for High-Performers**
 Most productivity apps treat all time as equal. That is a flaw.
@@ -94,4 +94,3 @@ Praxis relies on Clerk for secure authentication and Prisma for safe data queryi
 <p className="text-xs font-mono font-bold text-muted-foreground uppercase tracking-[0.4em]">
 Praxis OS v0.1.0 /// Authored for the High-Performer
 </p>
-</div>
