@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+# ⚡️ PRAXIS
+**The Cognitive Operating System for High-Performers**
+Most productivity apps treat all time as equal. That is a flaw.
 
-## Getting Started
-
-First, run the development server:
-
+Praxis is an advanced time-blocking, Pomodoro execution, and AI habit telemetry platform wrapped in a dark luxury UI.
+View Demo · Report Bug · Request Feature
+</div>
+## 🗃️ System Architecture
+Praxis is built to handle complex state management and lightning-fast AI inference without compromising on a premium, hardware-adjacent aesthetic.
+### 🖥️ Frontend
+ * **Framework:** Next.js (App Router)
+ * **Language:** TypeScript
+ * **Styling:** Tailwind CSS + custom CSS variables for dark-luxury gradients
+ * **UI Components:** Shadcn UI (Zinc/Slate base)
+ * **Notifications:** Sonner (elegant, highly customizable toasts)
+ * **Animations:** Framer Motion & GSAP (ScrollTrigger for telemetry docs)
+ * **State Management:** Zustand (for decoupled Pomodoro timer persistence)
+ * **Drag & Drop:** @dnd-kit/core
+### ⚙️ Backend & Data
+ * **Database:** PostgreSQL
+ * **ORM:** Prisma
+ * **Authentication:** Clerk
+ * **AI Telemetry:** Groq API SDK (LLaMA-3 for zero-latency habit rewards)
+ * **Analytics:** Recharts
+## 🚀 Core Protocols (Features)
+### 01_ Dynamic Planner
+The core engine. Stop treating tasks like a checklist. Praxis uses an intuitive drag-and-drop interface (@dnd-kit) to map unassigned tasks directly into specific time blocks on your daily timeline.
+### 02_ Deep Focus Execution
+A decoupled Pomodoro timer built with Zustand and animated via Framer Motion. Features a glowing SVG progress ring and a tactical HUD that persists even as you navigate through different routes in the application.
+### 03_ The Habit Protocol
+Engineered consistency. Track high-impact daily behaviors. Upon completion, Praxis triggers a server action to the Groq API, instantly generating context-aware, cyberpunk-themed AI rewards and motivation based on your current streak.
+### 04_ Neural Insights
+A telemetry dashboard utilizing Recharts to map your focus hours, subject distribution, and performance leaks over time. Identify patterns in your deep work execution.
+## 🛠️ Initialization (Local Setup)
+To spin up the Praxis environment locally, ensure you have Bun installed for optimal package execution.
+### 1. Clone the repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/yourusername/praxis.git
+cd praxis
+
 ```
+### 2. Install dependencies
+```bash
+bun install
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```
+### 3. Configure Environment Variables
+Create a .env file in the root directory and add your secure keys:
+```env
+# Database (PostgreSQL / Supabase / Neon)
+DATABASE_URL="postgresql://user:password@localhost:5432/praxis"
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Clerk Authentication
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="pk_test_..."
+CLERK_SECRET_KEY="sk_test_..."
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Groq AI
+GROQ_API_KEY="gsk_..."
 
-## Learn More
+```
+### 4. Provision the Database
+Push the Prisma schema to your PostgreSQL instance:
+```bash
+bunx prisma db push
 
-To learn more about Next.js, take a look at the following resources:
+```
+### 5. Execute the System
+```bash
+bun run dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+Navigate to http://localhost:3000 to access the Praxis terminal.
+## 📂 File Structure Overview
+```text
+src/
+├── actions/             # Next.js Server Actions (Database mutations, Groq AI calls)
+├── app/                 # App Router (Pages, Layouts, Auth Routes)
+│   ├── (dashboard)/     # Protected application routes (Planner, Focus, Habits, Insights)
+├── components/          # Reusable UI & Protocol components
+│   ├── ui/              # Shadcn primitives
+│   ├── planner/         # Drag-and-drop calendar modules
+│   ├── pomodoro/        # Zustand-powered focus timer
+├── hooks/               # Custom React hooks (usePomodoro)
+├── lib/                 # Utility functions (Prisma client, cn merge)
+└── prisma/              # Schema and migrations
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+## 🛡️ Data Sovereignty
+Praxis relies on Clerk for secure authentication and Prisma for safe data querying. Your schedule, habits, and telemetry remain strictly under your authorization.
+<div align="center">
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+<p className="text-xs font-mono font-bold text-muted-foreground uppercase tracking-[0.4em]">
+Praxis OS v0.1.0 /// Authored for the High-Performer
+</p>
+</div>
