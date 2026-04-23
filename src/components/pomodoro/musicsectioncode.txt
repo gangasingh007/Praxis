@@ -1,0 +1,196 @@
+ <div className="rounded-3xl border border-border/50 bg-card/60 backdrop-blur-xl overflow-hidden shadow-xl">
+        {/* header toggle */}
+        <button
+          onClick={() => setShowMusic((v) => !v)}
+          className="w-full flex items-center justify-between px-5 py-4 hover:bg-muted/20 transition-colors"
+        >
+          <div className="flex items-center gap-2.5">
+            <div className="w-7 h-7 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
+              <Music2 size={13} className="text-primary" />
+            </div>
+            <div className="text-left">
+              <p className="text-xs font-black uppercase tracking-widest">
+                Focus Music
+              </p>
+              <p className="text-[10px] font-mono text-muted-foreground/40 uppercase tracking-widest">
+                Simulated
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            {isPlaying && <EqBars color={mConfig.ring} />}
+            <ChevronRight
+              size={14}
+              className={cn(
+                "text-muted-foreground/30 transition-transform duration-300",
+                showMusic && "rotate-90"
+              )}
+            />
+          </div>
+        </button>
+
+        {showMusic && (
+          <div className="px-4 pb-4 flex flex-col gap-3 border-t border-border/30">
+            {/* ── Track list ── */}
+            <div className="flex flex-col gap-1 pt-3">
+              {TRACKS.map((t, i) => {
+                const isActive = i === curTrack;
+                return (
+                  <button
+                    key={i}
+                    onClick={() => selectTrack(i)}
+                    className={cn(
+                      "flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all duration-200 border group",
+                      isActive
+                        ? "bg-background/60 border-border/50"
+                        : "border-transparent hover:bg-background/30 hover:border-border/20"
+                    )}
+                  >
+                    <div
+                      className="w-9 h-9 rounded-xl flex items-center justify-center text-sm flex-shrink-0 border border-white/5"
+                      style={{ backgroundColor: t.color }}
+                    >
+                      {t.emoji}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p
+                        className={cn(
+                          "text-[13px] font-semibold truncate transition-colors",
+                          isActive ? "text-foreground" : "text-foreground/70 group-hover:text-foreground"
+                        )}
+                      >
+                        {t.name}
+                      </p>
+                      <p className="text-[10px] font-mono text-muted-foreground/50 mt-0.5 uppercase tracking-wider">
+                        {t.genre}
+                      </p>
+                    </div>
+                    <div className="flex-shrink-0">
+                      {isActive && isPlaying ? (
+                        <EqBars color={mConfig.ring} />
+                      ) : (
+                        <span className="text-[10px] font-mono text-muted-foreground/40">
+                          {t.durLabel}
+                        </span>
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* ── Player bar ── */}
+            <div className="rounded-2xl border border-border/40 bg-background/40 backdrop-blur-sm p-4 flex flex-col gap-3">
+              {/* now playing row */}
+              <div className="flex items-center gap-3">
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center text-base flex-shrink-0 border border-white/5 shadow-lg"
+                  style={{ backgroundColor: track.color }}
+                >
+                  {track.emoji}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[13px] font-bold text-foreground truncate">
+                    {track.name}
+                  </p>
+                  <p className="text-[10px] font-mono text-muted-foreground/50 uppercase tracking-wider">
+                    {track.genre}
+                  </p>
+                </div>
+                {/* controls */}
+                <div className="flex items-center gap-1 flex-shrink-0">
+                  <button
+                    onClick={prevTrack}
+                    className="w-7 h-7 flex items-center justify-center rounded-lg text-muted-foreground/50 hover:text-foreground hover:bg-muted/50 transition-all"
+                  >{}
+                    <SkipBack size={13} />
+                  </button>
+                  <button
+                    onClick={togglePlay}
+                    className="w-9 h-9 flex items-center justify-center rounded-xl transition-all hover:-translate-y-px active:translate-y-0"
+                    style={{
+                      backgroundColor: mConfig.ring,
+                      color: "hsl(var(--background))",
+                      boxShadow: `0 0 12px ${mConfig.glow}`,
+                    }}
+                  >
+                    {isPlaying ? (
+                      <Pause size={13} />
+                    ) : (
+                      <Play size={13} className="ml-0.5" />
+                    )}
+                  </button>
+                  <button
+                    onClick={nextTrack}
+                    className="w-7 h-7 flex items-center justify-center rounded-lg text-muted-foreground/50 hover:text-foreground hover:bg-muted/50 transition-all"
+                  >{}
+                    <SkipForward size={13} />
+                  </button>
+                </div>
+              </div>
+
+              {/* seek bar */}
+              <div className="flex items-center gap-2.5">
+                <span className="text-[10px] font-mono text-muted-foreground/40 w-7 tabular-nums">
+                  {fmtSec(playPos)}
+                </span>
+                <div
+                  className="flex-1 h-1.5 rounded-full bg-border/30 relative cursor-pointer group/seek overflow-hidden"
+                  onClick={seekTrack}
+                >
+                  <div
+                    className="h-full rounded-full transition-[width] duration-1000 linear relative"
+                    style={{
+                      width: `${Math.round(playPct)}%`,
+                      backgroundColor: mConfig.ring,
+                      boxShadow: isPlaying ? `0 0 6px ${mConfig.ring}` : "none",
+                    }}
+                  />
+                </div>
+                <span className="text-[10px] font-mono text-muted-foreground/40 w-7 text-right tabular-nums">
+                  {track.durLabel}
+                </span>
+              </div>
+
+              {/* volume */}
+              <div className="flex items-center gap-2.5">
+                <button
+                  onClick={() => setIsMuted((v) => !v)}
+                  className="text-muted-foreground/40 hover:text-muted-foreground transition-colors"
+                >
+                  {isMuted || vol === 0 ? (
+                    <VolumeX size={13} />
+                  ) : (
+                    <Volume2 size={13} />
+                  )}
+                </button>
+                <div className="flex-1 relative h-1.5 rounded-full bg-border/30 overflow-hidden">
+                  <div
+                    className="h-full rounded-full transition-all duration-150"
+                    style={{
+                      width: `${effectiveVol}%`,
+                      backgroundColor: mConfig.ring,
+                    }}
+                  />
+                  <input
+                    type="range"
+                    placeholder={``}
+                    min={0}
+                    max={100}
+                    step={1}
+                    value={vol}
+                    onChange={(e) => {
+                      setVol(Number(e.target.value));
+                      if (isMuted) setIsMuted(false);
+                    }}
+                    className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                  />
+                </div>
+                <span className="text-[10px] font-mono text-muted-foreground/40 w-7 text-right tabular-nums">
+                  {effectiveVol}%
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
