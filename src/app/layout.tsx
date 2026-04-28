@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={cn("font-sans", inter.variable)}>
       <body className={`${jetbrainsMono.variable} font-mono antialiased bg-background text-foreground`}>
-        <ThemeProvider
+         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           enableSystem

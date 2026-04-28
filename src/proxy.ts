@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { decrypt, AUTH_COOKIE_NAME } from "@/lib/auth";
-
+import { clerkMiddleware } from '@clerk/nextjs/server';
 // Public routes that don't require authentication
 const publicRoutes = ["/", "/login", "/register"];
 
@@ -36,3 +36,4 @@ export default async function middleware(request: NextRequest) {
 export const config = {
   matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
 };
+

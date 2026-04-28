@@ -1,4 +1,3 @@
-"use server";
 
 import { GoalDashboard } from "@/components/planner/GoalDashboard";
 import { getMonthlyGoals } from "@/actions/goal-actions";
