@@ -1,0 +1,1 @@
+Improve the landing page and fix the navigation for the docs page and as well as the auth pages 
