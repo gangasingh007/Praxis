@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { decrypt, AUTH_COOKIE_NAME } from "@/lib/auth";
 import { clerkMiddleware } from '@clerk/nextjs/server';
 // Public routes that don't require authentication
-const publicRoutes = ["/", "/login", "/register"];
+const publicRoutes = ["/landing", "/login", "/register","/docs"];
 
 export default async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
@@ -15,13 +15,13 @@ export default async function middleware(request: NextRequest) {
     try {
       session = await decrypt(cookie);
     } catch (e) {
-      // Invalid session
+      console.error("Error decrypting session cookie:", e);
     }
   }
 
   // Redirect to login if accessing a protected route without a session
   if (!isPublicRoute && !session) {
-    return NextResponse.redirect(new URL("/login", request.nextUrl));
+    return NextResponse.redirect(new URL("/landing", request.nextUrl));
   }
 
   // Redirect to dashboard if accessing a public route with a session

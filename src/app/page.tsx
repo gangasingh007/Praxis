@@ -6,6 +6,5 @@ export default async function LandingPage() {
   if (session) {
     redirect("/planner");
   }
-  else redirect("/login");
-return null;
+  else redirect("/landing");
 }

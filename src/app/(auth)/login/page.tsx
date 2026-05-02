@@ -20,33 +20,6 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
 
-/* ── tiny typed-text for the tagline ── */
-function TypedTagline({ text }: { text: string }) {
-  const [displayed, setDisplayed] = useState("");
-  const done = useRef(false);
-
-  useEffect(() => {
-    if (done.current) return;
-    done.current = true;
-    let i = 0;
-    const id = setInterval(() => {
-      setDisplayed(text.slice(0, ++i));
-      if (i >= text.length) clearInterval(id);
-    }, 40);
-    return () => clearInterval(id);
-  }, [text]);
-
-  return (
-    <span className="font-mono">
-      {displayed}
-      {displayed.length < text.length && (
-        <span className="inline-block w-[2px] h-[1em] bg-primary align-middle ml-px animate-pulse" />
-      )}
-    </span>
-  );
-}
-
-/* ── floating particle ── */
 function Particle({
   style,
 }: {
@@ -312,46 +285,6 @@ export default function LoginPage() {
                       {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
                     </button>
                   </div>
-
-                  {/* password strength bar */}
-                  {/* {passwordValue && (
-                    <div className="space-y-1 pt-0.5">
-                      <div className="flex gap-1">
-                        {[1, 2, 3, 4].map((seg) => {
-                          const strength = Math.min(
-                            4,
-                            Math.floor(passwordValue.length / 3)
-                          );
-                          return (
-                            <div
-                              key={seg}
-                              className={cn(
-                                "h-[3px] flex-1 rounded-full transition-all duration-500",
-                                seg <= strength
-                                  ? strength <= 1
-                                    ? "bg-rose-400"
-                                    : strength <= 2
-                                    ? "bg-amber-400"
-                                    : strength <= 3
-                                    ? "bg-blue-400"
-                                    : "bg-emerald-400"
-                                  : "bg-border/30"
-                              )}
-                            />
-                          );
-                        })}
-                      </div>
-                      <p className="text-[10px] font-mono text-muted-foreground/40 uppercase tracking-widest">
-                        {passwordValue.length < 4
-                          ? "Weak — keep going"
-                          : passwordValue.length < 7
-                          ? "Fair — almost there"
-                          : passwordValue.length < 10
-                          ? "Strong — good to go"
-                          : "Maximum — excellent"}
-                      </p>
-                    </div>
-                  )} */}
                 </div>
 
                 {/* ── error ── */}
