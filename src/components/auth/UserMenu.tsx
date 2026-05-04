@@ -61,15 +61,6 @@ export function UserMenu({ user }: UserMenuProps) {
                   <User size={14} className="group-hover:text-primary transition-colors" />
                   <span className="uppercase tracking-widest">Profile Card</span>
                 </Link>
-                
-                <Link 
-                  href="/settings"
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-2 px-3 py-2 text-xs font-bold text-muted-foreground hover:text-foreground hover:bg-accent rounded-xl transition-all group"
-                >
-                  <Settings size={14} className="group-hover:text-primary transition-colors" />
-                  <span className="uppercase tracking-widest">Preferences</span>
-                </Link>
               </div>
               
               <div className="h-px bg-border mx-2" />

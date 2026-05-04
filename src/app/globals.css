@@ -194,6 +194,19 @@
   .custom-scrollbar::-webkit-scrollbar-thumb {
     @apply bg-border/50 rounded-full hover:bg-border transition-colors;
   }
+
+  @keyframes shimmer {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s linear infinite;
+  }
 }
 
 @layer base {

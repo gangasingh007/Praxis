@@ -1,283 +1,112 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
-import {
-  Calendar,
-  Target,
-  Timer,
-  BarChart2,
-  CheckCircle,
-  ArrowRight,
-  Terminal,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-
-const SECTIONS = [
-  { 
-    id: "philosophy", 
-    title: "Core Philosophy", 
-    icon: Target, 
-    phase: "00",
-    content: (
-      <div className="space-y-4 text-lg leading-relaxed">
-        <p>
-          The fundamental problem with most productivity systems is that they treat all time as equal. Praxis is built on the principle of <strong className="text-foreground font-mono bg-primary/10 px-1.5 py-0.5 rounded border border-primary/20">Time_Blocking</strong>—the practice of scheduling specific tasks into specific time slots.
-        </p>
-        <p>
-          By deciding <em>what</em> you will do and <em>when</em> you will do it before the day begins, you remove the constant need to make choices throughout the day, preserving your cognitive energy for actual deep work.
-        </p>
-      </div>
-    )
-  },
-  { 
-    id: "initialization", 
-    title: "Daily Initialization", 
-    icon: Calendar, 
-    phase: "01",
-    content: (
-      <div className="space-y-6 text-lg leading-relaxed">
-        <p>
-          Your day should start (or the previous night should end) in the <strong>Planner</strong>. This is where you map out your mission parameters.
-        </p>
-        
-        <div className="grid gap-3 font-mono text-sm">
-          <div className="flex gap-4 p-4 rounded-lg bg-background/50 border border-border/50 items-start hover:border-primary/30 transition-colors">
-            <span className="text-primary font-bold">01_</span>
-            <div><span className="text-foreground font-bold">Brain Dump:</span> List everything that needs to be done. Keep it raw.</div>
-          </div>
-          <div className="flex gap-4 p-4 rounded-lg bg-background/50 border border-border/50 items-start hover:border-primary/30 transition-colors">
-            <span className="text-primary font-bold">02_</span>
-            <div><span className="text-foreground font-bold">Categorize:</span> Assign color codes to tasks to visually distinguish work states.</div>
-          </div>
-          <div className="flex gap-4 p-4 rounded-lg bg-background/50 border border-border/50 items-start hover:border-primary/30 transition-colors">
-            <span className="text-primary font-bold">03_</span>
-            <div><span className="text-foreground font-bold">Time Block:</span> Drag tasks into the daily schedule. Enforce realistic boundaries.</div>
-          </div>
-        </div>
-
-        <div className="pt-2">
-          <Link href="/planner">
-            <Button variant="outline" className="gap-2 font-mono uppercase tracking-widest hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all">
-              Open Planner <ArrowRight size={14} />
-            </Button>
-          </Link>
-        </div>
-      </div>
-    )
-  },
-  { 
-    id: "execution", 
-    title: "Deep Focus Execution", 
-    icon: Timer, 
-    phase: "02",
-    content: (
-      <div className="space-y-4 text-lg leading-relaxed">
-        <p>
-          Once your schedule is set, stop thinking about the &quot;what&quot; and focus entirely on the &quot;now.&quot; Use the <strong>Focus</strong> terminal to execute your plan.
-        </p>
-        <p>
-          Praxis integrates an advanced Pomodoro technique—25 minutes of absolute focus followed by a 5-minute break. This rhythm prevents burnout and keeps your neural pathways fresh for sustained, high-velocity effort.
-        </p>
-        <div className="pt-4">
-          <Link href="/focus">
-            <Button variant="outline" className="gap-2 font-mono uppercase tracking-widest hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all">
-              Initialize Focus Mode <ArrowRight size={14} />
-            </Button>
-          </Link>
-        </div>
-      </div>
-    )
-  },
-  { 
-    id: "consistency", 
-    title: "The Habit Protocol", 
-    icon: CheckCircle, 
-    phase: "03",
-    content: (
-      <div className="space-y-4 text-lg leading-relaxed">
-        <p>
-          Success is the sum of small, repeated actions. The <strong>Habits</strong> section is designed to track high-impact behaviors that don&apos;t necessarily fit into a single time block but are essential for long-term compounding growth.
-        </p>
-        <blockquote className="border-l-2 border-primary pl-5 py-2 my-6 italic text-foreground bg-primary/5 rounded-r-xl shadow-[inset_4px_0_0_hsl(var(--primary))]">
-          "Aim for Never Miss Twice. Perfection isn&apos;t the goal; engineered consistency is."
-        </blockquote>
-        <div className="pt-2">
-          <Link href="/habits">
-            <Button variant="outline" className="gap-2 font-mono uppercase tracking-widest hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all">
-              Track Habits <ArrowRight size={14} />
-            </Button>
-          </Link>
-        </div>
-      </div>
-    )
-  },
-  { 
-    id: "refinement", 
-    title: "Performance Refinement", 
-    icon: BarChart2, 
-    phase: "04",
-    content: (
-      <div className="space-y-4 text-lg leading-relaxed">
-        <p>
-          At the end of each week, access the <strong>Insights</strong> dashboard. Analyze where your time actually went versus where you planned for it to go.
-        </p>
-        <p>
-          Use this telemetry data to identify <span className="text-foreground font-mono bg-zinc-800/50 px-1.5 py-0.5 rounded border border-border">"performance leaks"</span> and adjust your next week&apos;s parameters for optimized efficiency. The AI will assist in finding patterns in your work habits.
-        </p>
-        <div className="pt-4">
-          <Link href="/insights">
-            <Button variant="outline" className="gap-2 font-mono uppercase tracking-widest hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all">
-              View Telemetry <ArrowRight size={14} />
-            </Button>
-          </Link>
-        </div>
-      </div>
-    )
-  },
-];
-
-export default function DocumentationPage() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [activeSection, setActiveSection] = useState("philosophy");
-
-  useEffect(() => {
-    const sections = document.querySelectorAll(".doc-section");
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      {
-        rootMargin: "-20% 0px -70% 0px",
-        threshold: 0,
-      }
-    );
-
-    sections.forEach((section) => observer.observe(section));
-
-    return () => {
-      sections.forEach((section) => observer.unobserve(section));
-    };
-  }, []);
-
-  // Smooth scroll to section
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  };
-
+export default function LearnMorePage() {
   return (
-    <div
-      ref={containerRef}
-      className="max-w-7xl mx-auto p-6 py-12 md:py-24 font-mono flex flex-col md:flex-row gap-12 relative items-start"
-    >
-    
-      <aside className="hidden md:flex flex-col w-64 shrink-0 sticky top-24 space-y-8 h-[calc(100vh-8rem)]">
-        <nav className="flex flex-col gap-1 relative before:absolute before:inset-y-0 before:left-[11px] before:w-[1px] before:bg-border/50">
-          {SECTIONS.map((section) => {
-            const isActive = activeSection === section.id;
-            return (
-              <button
-                key={section.id}
-                onClick={() => scrollToSection(section.id)}
-                className={cn(
-                  "relative flex items-center gap-4 py-2.5 px-3 text-sm font-medium uppercase tracking-wider transition-all duration-300 text-left",
-                  isActive
-                    ? "text-primary translate-x-2"
-                    : "text-muted-foreground hover:text-zinc-300 hover:translate-x-1"
-                )}
-              >
-                <div
-                  className={cn(
-                    "w-1.5 h-1.5 rounded-full z-10 transition-all duration-300",
-                    isActive
-                      ? "bg-primary shadow-[0_0_10px_hsl(var(--primary))] scale-150"
-                      : "bg-border"
-                  )}
-                />
-                <span className="font-mono text-xs opacity-50">
-                  {section.phase}
-                </span>
-                {section.title}
-              </button>
-            );
-          })}
-        </nav>
-      </aside>
-
-      {/* 📄 Main Content */}
-      <main className="flex-1 space-y-24 min-w-0">
-        
-        {/* Header */}
-        <header className="space-y-6 relative">
-          <div className="absolute -top-32 -left-20 w-[400px] h-[400px] bg-primary/10 blur-[120px] rounded-full pointer-events-none -z-10" />
-          <h1 className="italic text-6xl md:text-8xl text-foreground font-medium tracking-tight uppercase leading-[0.9]">
-            Praxis<span className="not-italic text-primary">.</span> <br />
-            <span className="not-italic text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/40 drop-shadow-sm">
-              Parameters
-            </span>
+    <div className="max-w-3xl mx-auto px-6 py-12 md:py-24 text-foreground/90 leading-relaxed">
+      <article className="space-y-12">
+        <header className="space-y-4">
+          <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight italic">
+            The Praxis<span className="text-primary">.</span> Methodology
           </h1>
-
-          <p className="text-xl text-muted-foreground max-w-2xl font-medium leading-relaxed">
-            Praxis is a methodology for cognitive management. This guide helps
-            you reclaim focus, analyze telemetry, and eliminate decision fatigue.
+          <p className="text-xl text-muted-foreground font-medium italic">
+            A System for Cognitive Management and High-Velocity Output
           </p>
         </header>
 
-        <div className="h-px w-full bg-gradient-to-r from-border/50 via-border/20 to-transparent" />
+        <section className="space-y-6">
+          <h2 className="text-2xl font-bold uppercase tracking-widest text-primary border-b border-primary/20 pb-2">
+            01. Introduction
+          </h2>
+          <p>
+            The fundamental problem with modern productivity is not a lack of effort, but a lack of direction. Most people operate in a state of reactive chaos—responding to notifications, shifting between unrelated tasks, and falling victim to the latest emergency.
+          </p>
+          <p>
+            Praxis is built to solve this by treating your attention as your most precious resource. It is a system designed to eliminate decision fatigue by separating "Planning" from "Execution."
+          </p>
+        </section>
 
-        {/* Dynamic Sections mapped from the array */}
-        {SECTIONS.map((section) => {
-          const Icon = section.icon;
+        <section className="space-y-6">
+          <h2 className="text-2xl font-bold uppercase tracking-widest text-primary border-b border-primary/20 pb-2">
+            02. The Core Philosophy
+          </h2>
+          <p>
+            At the heart of Praxis is the concept of <strong>Time Blocking</strong>. Unlike a traditional to-do list, which only tells you <em>what</em> to do, time blocking tells you <em>when</em> you will do it.
+          </p>
+          <p>
+            By assigning every minute of your work day to a specific task, you remove the constant need to make choices. When you finish one task, you don&apos;t ask &quot;What next?&quot;—you simply look at the schedule and begin the next block. This preserves your cognitive energy for the work itself, rather than the management of the work.
+          </p>
+          <p>
+            We also leverage <strong>Deep Work</strong>—the ability to focus without distraction on a cognitively demanding task. Our Focus terminal is designed to facilitate this state by providing a visual anchor for your current mission.
+          </p>
+        </section>
 
-          return (
-            <section
-              key={section.id}
-              id={section.id}
-              className="doc-section scroll-mt-32 space-y-6 group"
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-2xl bg-card border border-border flex items-center justify-center group-hover:border-primary/40 group-hover:bg-primary/5 transition-all duration-500 shadow-sm">
-                  <Icon className="text-primary w-6 h-6" />
-                </div>
+        <section className="space-y-6">
+          <h2 className="text-2xl font-bold uppercase tracking-widest text-primary border-b border-primary/20 pb-2">
+            03. The Daily Initialization Ritual
+          </h2>
+          <p>
+            Your day begins in the <strong>Planner</strong>. This is your mission control. The ritual follows a three-step process:
+          </p>
+          <p>
+            <strong>The Brain Dump:</strong> Empty your mind of every obligation, idea, and worry. Write them down as tasks. Do not filter; just externalize.
+          </p>
+          <p>
+            <strong>Categorization:</strong> Group tasks by their nature. Are they Deep Work (high concentration), Admin (low energy/quick), or Recovery (rest)? Assign them to subjects to see where your effort is distributed.
+          </p>
+          <p>
+            <strong>Strategic Scheduling:</strong> Drag these tasks onto your timeline. Be realistic. If a task takes two hours, give it two hours. Ensure you have buffers for breaks and transition periods.
+          </p>
+        </section>
 
-                <div>
-                  <div className="text-[10px] font-mono text-primary uppercase tracking-widest font-bold mb-1 opacity-80">
-                    Phase {section.phase}
-                  </div>
-                  <h2 className="text-3xl font-black uppercase tracking-tight text-foreground/90">
-                    {section.title}
-                  </h2>
-                </div>
-              </div>
+        <section className="space-y-6">
+          <h2 className="text-2xl font-bold uppercase tracking-widest text-primary border-b border-primary/20 pb-2">
+            04. High-Velocity Execution
+          </h2>
+          <p>
+            Once the plan is set, you move into <strong>Execution Mode</strong>. This is where the Focus Terminal becomes essential.
+          </p>
+          <p>
+            We utilize an advanced Pomodoro protocol: 25 minutes of intense, single-task focus followed by a 5-minute break. This rhythm is not arbitrary; it aligns with the brain&apos;s natural ultradian rhythms, allowing you to sustain high output for hours without burning out.
+          </p>
+          <p>
+            During a focus session, your only goal is the task at hand. If a new idea or distraction pops up, quickly note it down and immediately return to the session.
+          </p>
+        </section>
 
-              {/* Unique Content rendered from the object */}
-              <div className="pl-18 md:pl-20 text-muted-foreground border-l border-transparent group-hover:border-border/40 transition-colors duration-500 py-2">
-                {section.content}
-              </div>
-            </section>
-          );
-        })}
+        <section className="space-y-6">
+          <h2 className="text-2xl font-bold uppercase tracking-widest text-primary border-b border-primary/20 pb-2">
+            05. The Habit Protocol
+          </h2>
+          <p>
+            Work is episodic, but habits are continuous. While the planner handles your specific projects, the <strong>Habits</strong> section manages your character.
+          </p>
+          <p>
+            Success is not the result of one-off heroics, but the compounding interest of daily actions. Whether it&apos;s meditation, reading, or exercise, tracking these behaviors ensures you are building the foundation required to sustain your high-velocity work life.
+          </p>
+          <p>
+            We encourage the &quot;Never Miss Twice&quot; rule. Missing one day is a lapse; missing two is the start of a new habit. Perfection isn&apos;t the goal—engineered consistency is.
+          </p>
+        </section>
 
-        {/* Footer */}
-        <footer className="pt-16 pb-8 border-t border-border/30 text-left md:pl-20 mt-12">
-          <p className="text-[10px] font-mono font-bold text-muted-foreground/50 uppercase tracking-[0.4em] flex items-center gap-4">
-            <Terminal size={14} className="text-primary/50" /> End of Protocol{" "}
-            <span className="text-primary mx-2">///</span> Master Your Time
+        <section className="space-y-6">
+          <h2 className="text-2xl font-bold uppercase tracking-widest text-primary border-b border-primary/20 pb-2">
+            06. Telemetry and Refinement
+          </h2>
+          <p>
+            Finally, we use <strong>Insights</strong> to close the feedback loop. Without data, you are just guessing.
+          </p>
+          <p>
+            The Insights dashboard tracks your actual performance against your plan. It highlights where you over-scheduled, where you underestimated task duration, and how much deep work you actually achieved.
+          </p>
+          <p>
+            Every Sunday, review this telemetry. Use it to adjust your parameters for the coming week. Over time, your planning will become more accurate, and your focus more lethal.
+          </p>
+        </section>
+
+        <footer className="pt-12 border-t border-border/40">
+          <p className="text-sm font-mono text-muted-foreground italic uppercase tracking-widest">
+            End of Protocol. Now, return to the work.
           </p>
         </footer>
-      </main>
+      </article>
     </div>
   );
 }

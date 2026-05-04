@@ -27,7 +27,6 @@ const navItems = [
   { name: "Focus", href: "/focus", icon: Timer },
   { name: "Insights", href: "/insights", icon: BarChart2 },
   { name: "Profile", href: "/profile", icon: UserIcon },
-  { name: "Settings", href: "/settings", icon: Settings },
 ];
 
 export function Sidebar() {

@@ -1,12 +1,26 @@
 import { cn } from "@/lib/utils";
-import { AnimatePresence ,motion } from "framer-motion";
-import { Plus, Trash2 } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Plus, Trash2, LucideIcon } from "lucide-react";
 import { useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { WeeklyGoal, DailyGoal } from "@/types";
+
+interface GoalPanelProps {
+  type: "weekly" | "daily";
+  title: string;
+  icon: LucideIcon;
+  color: "blue" | "amber";
+  items: (WeeklyGoal | DailyGoal)[];
+  inputValue: string;
+  onInputChange: (v: string) => void;
+  onSubmit: (e: React.FormEvent) => void;
+  onDelete: (id: string) => void;
+  placeholder: string;
+  emptyText: string;
+}
 
 export default function GoalPanel({
-  type,
   title,
   icon: Icon,
   color,
@@ -17,19 +31,7 @@ export default function GoalPanel({
   onDelete,
   placeholder,
   emptyText,
-}: {
-  type: string;
-  title: string;
-  icon: any;
-  color: "blue" | "amber";
-  items: any[];
-  inputValue: string;
-  onInputChange: (v: string) => void;
-  onSubmit: (e: React.FormEvent) => void;
-  onDelete: (id: string) => void;
-  placeholder: string;
-  emptyText: string;
-}) {
+}: GoalPanelProps) {
   const [isAdding, setIsAdding] = useState(false);
 
   const colorMap = {
@@ -152,7 +154,7 @@ export default function GoalPanel({
 
         {/* items */}
         <AnimatePresence mode="popLayout">
-          {items.map((item: any, i: number) => (
+          {items.map((item, i) => (
             <motion.div
               key={item.id}
               layout
