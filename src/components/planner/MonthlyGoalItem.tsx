@@ -93,7 +93,7 @@ export function MonthlyGoalItem({
               onDelete(goal.id);
             }}
             className="opacity-0 group-hover:opacity-100 p-1.5 rounded-lg hover:bg-destructive/10 hover:text-destructive text-muted-foreground/40 transition-all"
-          >
+          >{}
             <Trash2 className="w-3.5 h-3.5" />
           </button>
           <ChevronRight

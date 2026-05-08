@@ -1,10 +1,10 @@
 export default function LearnMorePage() {
   return (
-    <div className="max-w-3xl mx-auto px-6 py-12 md:py-24 text-foreground/90 leading-relaxed">
+    <div className="max-w-[80%] mx-auto px-6 py-12 md:py-24 text-foreground/90 leading-relaxed">
       <article className="space-y-12">
         <header className="space-y-4">
           <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight italic">
-            The Praxis<span className="text-primary">.</span> Methodology
+            The Praxis<span className="text-primary">.</span> <br />Methodology
           </h1>
           <p className="text-xl text-muted-foreground font-medium italic">
             A System for Cognitive Management and High-Velocity Output

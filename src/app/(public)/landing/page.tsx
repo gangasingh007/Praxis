@@ -1,6 +1,5 @@
 // src/app/page.tsx
 import {
-  LandingNav,
   HeroSection,
   FeaturesSection,
   StatsSection,

@@ -26,6 +26,7 @@ const navItems = [
   { name: "Habits", href: "/habits", icon: CheckCircle },
   { name: "Focus", href: "/focus", icon: Timer },
   { name: "Insights", href: "/insights", icon: BarChart2 },
+  { name: "Docs", href: "/docs", icon: InfoIcon },
   { name: "Profile", href: "/profile", icon: UserIcon },
 ];
 

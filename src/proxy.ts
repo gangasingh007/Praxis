@@ -1,12 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { decrypt, AUTH_COOKIE_NAME } from "@/lib/auth";
-import { clerkMiddleware } from '@clerk/nextjs/server';
+
 // Public routes that don't require authentication
-const publicRoutes = ["/landing", "/login", "/register","/docs"];
+const publicRoutes = ["/landing", "/login", "/register", "/docs"];
+// Routes that should NOT redirect to dashboard if authenticated (e.g., shared pages)
+const sharedRoutes = ["/docs"];
 
 export default async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
-  const isPublicRoute = publicRoutes.includes(path);
+  
+  // Check if it's a public route
+  const isPublicRoute = publicRoutes.some(route => path.startsWith(route));
+  const isSharedRoute = sharedRoutes.some(route => path.startsWith(route));
 
   const cookie = request.cookies.get(AUTH_COOKIE_NAME)?.value;
   let session = null;
@@ -15,17 +20,19 @@ export default async function middleware(request: NextRequest) {
     try {
       session = await decrypt(cookie);
     } catch (e) {
+      // Invalidate invalid session cookies
       console.error("Error decrypting session cookie:", e);
     }
   }
 
-  // Redirect to login if accessing a protected route without a session
-  if (!isPublicRoute && !session) {
+  // 1. Redirect to landing if accessing a protected route without a session
+  if (!isPublicRoute && !session && path !== "/") {
     return NextResponse.redirect(new URL("/landing", request.nextUrl));
   }
 
-  // Redirect to dashboard if accessing a public route with a session
-  if (isPublicRoute && session && path !== "/") {
+  // 2. Redirect to dashboard if accessing a public route WITH a session
+  // UNLESS it's a shared route like /docs
+  if (isPublicRoute && session && !isSharedRoute) {
     return NextResponse.redirect(new URL("/planner", request.nextUrl));
   }
 
@@ -34,6 +41,7 @@ export default async function middleware(request: NextRequest) {
 
 // Routes Middleware should not run on
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|.*\\.png$|.*\\.svg$).*)"],
 };
+
 
