@@ -18,9 +18,9 @@ import {
 } from "@/components/ui/sheet";
 
 const navLinks = [
-  { label: "Features", href: "/landing#features" },
-  { label: "Metrics", href: "/landing#metrics" },
-  { label: "Testimonials", href: "/landing#testimonials" },
+  { label: "Features", href: "#features" },
+  { label: "Metrics", href: "#metrics" },
+  { label: "Testimonials", href: "#testimonials" },
   { label: "Docs", href: "/docs" },
 ];
 
@@ -31,6 +31,7 @@ interface LandingNavProps {
 export function LandingNav({ session }: LandingNavProps) {
   const [scrolled, setScrolled] = useState(false);
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
+  const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
   const isAuthenticated = !!session;
 
   useEffect(() => {
@@ -40,6 +41,13 @@ export function LandingNav({ session }: LandingNavProps) {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const getHref = (href: string) => {
+    if (href.startsWith("#") && pathname !== "/landing" && pathname !== "/") {
+      return `/landing${href}`;
+    }
+    return href;
+  };
 
   return (
     <motion.nav
@@ -67,7 +75,7 @@ export function LandingNav({ session }: LandingNavProps) {
             {navLinks.map((link) => (
               <Link
                 key={link.href}
-                href={link.href}
+                href={getHref(link.href)}
                 onMouseEnter={() => setHoveredLink(link.label)}
                 onMouseLeave={() => setHoveredLink(null)}
                 className="relative px-4 py-2 group"
@@ -181,7 +189,7 @@ export function LandingNav({ session }: LandingNavProps) {
                     >
                       <SheetClose asChild>
                         <Link
-                          href={link.href}
+                          href={getHref(link.href)}
                           className="flex items-center justify-between group py-3 px-2 rounded-lg hover:bg-primary/5 transition-all duration-200"
                         >
                           <span className="font-mono text-xs uppercase tracking-[0.2em] font-bold text-muted-foreground group-hover:text-primary transition-colors">

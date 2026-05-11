@@ -15,11 +15,13 @@ import {
   X,
   ArrowUpRight,
   Info,
-  InfoIcon
+  InfoIcon,
+  LogOut
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSidebar } from "@/hooks/use-sidebar";
 import { useEffect } from "react";
+import { logoutAction } from "@/actions/auth-actions";
 
 const navItems = [
   { name: "Planner", href: "/planner", icon: Calendar },
@@ -28,6 +30,7 @@ const navItems = [
   { name: "Insights", href: "/insights", icon: BarChart2 },
   { name: "Docs", href: "/docs", icon: InfoIcon },
   { name: "Profile", href: "/profile", icon: UserIcon },
+  { name: "Learn More",href: "/learn-more", icon: InfoIcon },
 ];
 
 export function Sidebar() {
@@ -38,6 +41,10 @@ export function Sidebar() {
   useEffect(() => {
     setOpen(false);
   }, [pathname, setOpen]);
+
+  const handleLogout = async () => {
+    await logoutAction();
+  };
 
   return (
     <>
@@ -144,23 +151,23 @@ export function Sidebar() {
         </nav>
 
         {/* Footer  */}
-        <Link 
-          href="/learn-more" 
-          className="p-4 border-t border-border/50"
-          title="Learn More"
-          aria-label="Learn More"
-        >
-          <div className={cn(
-            "p-3 rounded-2xl border border-border/50 bg-muted/30 flex items-center gap-3",
-            isCollapsed && "justify-center px-0"
-          )}><InfoIcon size={16} className="text-primary" />
-            {!isCollapsed && (
-              <div  className="flex justify-between items-center gap-2  text-xs font-bold text-muted-foreground  rounded-xl transition-all group">
-                <span className="text-[15px] text-center  font-mono font-bold text-foreground leading-none">Learn More</span>
-              </div>
-            )}
-          </div>
-        </Link>
+        <div className="mt-auto flex flex-col border-t border-border/50">
+          <button
+            onClick={handleLogout}
+            className="p-4  cursor-pointer  transition-colors group text-left w-full"
+            title={isCollapsed ? "Logout" : undefined}
+          >
+            <div className={cn(
+              "p-3 rounded-2xl border border-destructive/20 flex items-center hover:bg-destructive/10 gap-3 transition-all ",
+              isCollapsed && "justify-center px-0"
+            )}>
+              <LogOut size={16} className="text-destructive transition-transform group-hover:-translate-x-0.5" />
+              {!isCollapsed && (
+                <span className="text-[15px] font-mono font-bold text-destructive leading-none">Logout</span>
+              )}
+            </div>
+          </button>
+        </div>
       </aside>
     </>
   );

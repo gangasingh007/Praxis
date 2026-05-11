@@ -4,41 +4,54 @@ import { Layers } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 const footerLinks = {
-  Product: ["Planner", "Focus", "Habits", "Analytics"],
-  Resources: ["Documentation", "Changelog", "Status"],
-  Company: ["About", "Blog", "Contact"],
+  Product: [
+    { label: "Planner", href: "#features" },
+    { label: "Focus", href: "#features" },
+    { label: "Habits", href: "#features" },
+    { label: "Analytics", href: "#metrics" }
+  ],
+  Resources: [
+    { label: "Documentation", href: "/docs" },
+    { label: "Changelog", href: "#" },
+    { label: "Status", href: "#" }
+  ],
+  Company: [
+    { label: "About", href: "#" },
+    { label: "Blog", href: "#" },
+    { label: "Contact", href: "#" }
+  ],
 };
 
 export function LandingFooter() {
   return (
-    <footer className="border-t border-border/40 pt-14 pb-8">
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-10 mb-12">
+    <footer className="border-t border-border/40 pt-20 pb-12 bg-background/50">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-12 mb-16">
         {/* Brand */}
-        <div className="col-span-2 sm:col-span-1 space-y-3">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="font-black tracking-tighter text-lg uppercase italic">
-              Praxis<span className="text-primary"> .</span>
+        <div className="col-span-2 sm:col-span-1 space-y-5">
+          <Link href="/" className="flex items-center gap-2 group">
+            <span className="font-black tracking-tighter text-2xl uppercase italic group-hover:text-primary transition-colors">
+              Praxis<span className="text-primary">.</span>
             </span>
           </Link>
-          <p className="text-xs text-muted-foreground leading-relaxed max-w-[180px]">
-            Cognitive OS for high-performance individuals.
+          <p className="text-sm text-muted-foreground leading-relaxed max-w-[220px]">
+            The cognitive operating system for high-performance individuals. Precision engineered for clarity.
           </p>
         </div>
 
         {/* Link groups */}
         {Object.entries(footerLinks).map(([group, links]) => (
-          <div key={group} className="space-y-3">
-            <p className="text-[10px] font-mono font-bold uppercase tracking-widest text-muted-foreground">
+          <div key={group} className="space-y-5">
+            <p className="text-xs font-mono font-black uppercase tracking-[0.2em] text-foreground/80">
               {group}
             </p>
-            <ul className="space-y-2">
+            <ul className="space-y-3">
               {links.map((link) => (
-                <li key={link}>
+                <li key={link.label}>
                   <Link
-                    href="#"
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    href={link.href}
+                    className="text-sm text-muted-foreground hover:text-primary transition-all hover:translate-x-1 inline-block"
                   >
-                    {link}
+                    {link.label}
                   </Link>
                 </li>
               ))}
