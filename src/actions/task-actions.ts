@@ -47,6 +47,7 @@ export async function createTask(data: {
   date: Date;
   startTime?: Date | null;
   endTime?: Date | null;
+  durationMinutes?: number;
   subjectId?: string | null;
 }) {
   const user = await getAuthenticatedUser();
@@ -59,6 +60,7 @@ export async function createTask(data: {
       date: data.date,
       startTime: data.startTime,
       endTime: data.endTime,
+      durationMinutes: data.durationMinutes || 60,
       subjectId: data.subjectId,
       userId: user.id,
     },
@@ -78,6 +80,7 @@ export async function updateTask(id: string, data: {
   priority?: Priority;
   startTime?: Date | null;
   endTime?: Date | null;
+  durationMinutes?: number;
   date?: Date;
   subjectId?: string | null;
 }) {

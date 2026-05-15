@@ -1,1 +1,1 @@
-Improve the landing page and fix the navigation for the docs page and as well as the auth pages 
+draggable feature is done just have to work on the UI UX of the dragging and dropping 

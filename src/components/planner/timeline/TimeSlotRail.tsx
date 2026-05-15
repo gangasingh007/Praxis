@@ -8,26 +8,26 @@ interface TimeSlotRailProps {
 
 export function TimeSlotRail({ isCurrentHour, hasTask }: TimeSlotRailProps) {
   return (
-    <div className="relative shrink-0 flex flex-col items-center pt-2">
+    <div className="relative shrink-0 flex flex-col items-center pt-2 w-4">
       {/* Vertical line */}
       <div
         className={cn(
-          "w-px h-full min-h-[56px] transition-colors duration-200",
+          "w-px h-full min-h-[56px] transition-all duration-300",
           isCurrentHour
-            ? "bg-primary/30"
-            : "bg-border/30 group-hover/slot:bg-border/50"
+            ? "bg-primary/40 shadow-[0_0_8px_rgba(var(--primary),0.2)]"
+            : "bg-border/20 group-hover/slot:bg-border/40"
         )}
       />
       {/* Dot */}
       <div
         className={cn(
-          "absolute top-[6px] w-2 h-2 rounded-full border-2 border-background",
-          "transition-all duration-200",
+          "absolute top-[10px] w-2.5 h-2.5 rounded-full border-2 border-background",
+          "transition-all duration-500",
           isCurrentHour
-            ? "bg-primary shadow-[0_0_6px_hsl(var(--primary)/0.6)]"
+            ? "bg-primary shadow-[0_0_10px_hsl(var(--primary)/0.5)] scale-110"
             : hasTask
-              ? "bg-primary/60"
-              : "bg-border group-hover/slot:bg-muted-foreground/40"
+              ? "bg-primary/50 group-hover/slot:bg-primary/70"
+              : "bg-border group-hover/slot:bg-muted-foreground/30"
         )}
       />
     </div>

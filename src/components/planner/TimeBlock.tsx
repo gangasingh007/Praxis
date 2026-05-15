@@ -6,11 +6,12 @@ import { cn } from "@/lib/utils";
 interface TimeBlockProps {
   id: string; 
   timeLabel?: string;
+  hideLabel?: boolean;
   children?: React.ReactNode;
   className?: string;
 }
 
-export function TimeBlock({ id, timeLabel, children, className }: TimeBlockProps) {
+export function TimeBlock({ id, timeLabel, hideLabel, children, className }: TimeBlockProps) {
   const { isOver, setNodeRef } = useDroppable({
     id: id,
   });
@@ -21,12 +22,12 @@ export function TimeBlock({ id, timeLabel, children, className }: TimeBlockProps
     <div 
       className={cn(
         "flex gap-4 group",
-        isInbox ? "h-full w-full" : "h-[80px]",
+        isInbox ? "h-full w-full" : "h-full",
         className
       )}
     >
-      {/* Time Label - Only show if provided */}
-      {timeLabel && (
+      {/* Time Label - Only show if provided and not hidden */}
+      {timeLabel && !hideLabel && (
         <div className="w-16 text-right pt-2 shrink-0">
           <span className="text-xs text-muted-foreground font-medium group-hover:text-foreground transition-colors">
             {timeLabel}

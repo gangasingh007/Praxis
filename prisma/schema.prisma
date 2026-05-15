@@ -89,6 +89,7 @@ model Task {
   date        DateTime 
   startTime   DateTime? 
   endTime     DateTime? 
+  durationMinutes Int?    @default(60)
 
   userId      String
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)

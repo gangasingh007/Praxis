@@ -82,6 +82,22 @@ export function PlannerBoard() {
     [moveTask]
   );
 
+  const handleUpdateTaskDuration = useCallback(
+    async (taskId: string, durationMinutes: number) => {
+      const task = tasks.find(t => t.id === taskId);
+      if (!task || !task.startTime) return;
+
+      const startTime = new Date(task.startTime);
+      const endTime = new Date(startTime.getTime() + durationMinutes * 60 * 1000);
+
+      await updateTaskDetails(taskId, {
+        durationMinutes,
+        endTime,
+      });
+    },
+    [tasks, updateTaskDetails]
+  );
+
   const currentHourSlot = toHourSlot(currentTime);
   const currentMinute = currentTime.getMinutes();
   const unscheduledTasks = tasks.filter((t) => !t.startTime);
@@ -101,8 +117,8 @@ export function PlannerBoard() {
             tasks={tasks}
             currentHourSlot={currentHourSlot}
             currentMinute={currentMinute}
-            getTaskTimeSlot={(task) => taskTimeSlot(task.startTime)}
             onEditTask={openEditModal}
+            onUpdateTaskDuration={handleUpdateTaskDuration}
           />
 
           <PlannerSidebar

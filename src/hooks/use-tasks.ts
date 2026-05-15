@@ -89,6 +89,7 @@ export function useTasks(date: Date) {
   const moveTask = async (taskId: string, newTimeSlot: string | null) => {
     // Optimistic update
     const previousTasks = [...tasks];
+    const taskToMove = tasks.find(t => t.id === taskId);
     
     let startTime: Date | null = null;
     let endTime: Date | null = null;
@@ -97,7 +98,9 @@ export function useTasks(date: Date) {
       const [hours, minutes] = newTimeSlot.split(":").map(Number);
       startTime = new Date(date);
       startTime.setHours(hours, minutes, 0, 0);
-      endTime = new Date(startTime.getTime() + 60 * 60 * 1000);
+      
+      const duration = taskToMove?.durationMinutes || 60;
+      endTime = new Date(startTime.getTime() + duration * 60 * 1000);
     }
 
     setTasks((prev) =>

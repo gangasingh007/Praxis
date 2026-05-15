@@ -12,36 +12,42 @@ interface TimeSlotRowProps {
   time: string;
   isCurrentHour: boolean;
   currentMinute: number;
-  slotTasks: Task[];
-  onEditTask: (task: Task) => void;
+  hasTasks?: boolean;
 }
 
 export function TimeSlotRow({
   time,
   isCurrentHour,
   currentMinute,
-  slotTasks,
-  onEditTask,
+  hasTasks = false,
 }: TimeSlotRowProps) {
   const periodLabel = PERIOD_LABELS[time as keyof typeof PERIOD_LABELS];
 
   return (
-    <div>
-      {/* Period boundary label */}
-      {periodLabel && <PeriodLabel label={periodLabel} />}
+    <div className="relative group/slot h-[80px]">
+      {/* Period boundary label - rendered absolute to not shift grid */}
+      {periodLabel && (
+        <PeriodLabel 
+          label={periodLabel} 
+          className="absolute -top-6 left-0 right-0 z-10 pointer-events-none" 
+        />
+      )}
 
-      <div className="relative group/slot">
-        {/* Live time rule */}
-        {isCurrentHour && (
-          <CurrentTimeIndicator minuteOffset={currentMinute} />
-        )}
+      {/* Live time rule */}
+      {isCurrentHour && (
+        <CurrentTimeIndicator minuteOffset={currentMinute} />
+      )}
 
         <div
           className={cn(
-            "flex items-start gap-3 rounded-xl p-1 transition-all duration-200",
-            isCurrentHour ? "bg-primary/[0.03]" : "hover:bg-muted/30"
+            "flex items-start gap-3 h-full transition-all duration-300 border-b border-border/5 relative overflow-hidden",
+            isCurrentHour ? "bg-primary/[0.04]" : "hover:bg-muted/20"
           )}
         >
+          {/* Subtle background glow for current hour */}
+          {isCurrentHour && (
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent pointer-events-none" />
+          )}
           {/* Hour label */}
           <div className="w-12 shrink-0 pt-2 text-right">
             <span
@@ -59,26 +65,14 @@ export function TimeSlotRow({
           {/* Rail */}
           <TimeSlotRail
             isCurrentHour={isCurrentHour}
-            hasTask={slotTasks.length > 0}
+            hasTask={hasTasks}
           />
 
-          {/* Drop zone + tasks */}
+          {/* Drop zone */}
           <div className="flex-1 min-w-0 pb-1">
-            <TimeBlock id={time} timeLabel={time}>
-              {slotTasks.map((task) => (
-                <TaskCard
-                  key={task.id}
-                  id={task.id}
-                  title={task.title}
-                  priority={task.priority?.toUpperCase() as "LOW" | "MEDIUM" | "HIGH" | undefined}
-                  subjectColor={task.subject?.colorCode}
-                  onClick={() => onEditTask(task)}
-                />
-              ))}
-            </TimeBlock>
+            <TimeBlock id={time} timeLabel={time} hideLabel />
           </div>
         </div>
-      </div>
     </div>
   );
 }
