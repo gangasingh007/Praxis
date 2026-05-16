@@ -60,11 +60,11 @@ export function DocsLayout({ sections }: DocsLayoutProps) {
 
       <div className="flex gap-10 lg:gap-16 items-start">
         {/* Sidebar */}
-        <DocsSidebar
+        {/* <DocsSidebar
           sections={sections}
           activeSection={activeSection}
           onNavigate={scrollToSection}
-        />
+        /> */}
 
         {/* Main content column */}
         <main className="flex-1 min-w-0 space-y-16">

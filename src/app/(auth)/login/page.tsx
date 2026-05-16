@@ -132,7 +132,7 @@ export default function LoginPage() {
 
         {/* ── main card ── */}
         <div
-          className="relative"
+          className="relative border border-white/10 bg-card rounded-2xl animate-in fade-in zoom-in-95 duration-700"
           style={{ animation: "fadeScaleIn 0.6s ease 0.2s both" }}
         >
           {/* glow ring */}

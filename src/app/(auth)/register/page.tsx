@@ -119,7 +119,7 @@ export default function RegisterPage() {
 
         {/* ── main card ── */}
         <div
-          className="relative"
+          className="relative border border-white/10 bg-card rounded-2xl animate-in fade-in zoom-in-95 duration-700"
           style={{ animation: "fadeScaleIn 0.6s ease 0.2s both" }}
         >
           <div className="absolute -inset-[1px] rounded-[28px] bg-gradient-to-br from-card via-transparent to-card pointer-events-none" />
