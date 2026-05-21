@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import  SectionLabel from "./shared/SectionalLabel";
 import { GlowOrb } from "./shared/GlowOrb";
-import { ArrowRight, Zap, Terminal } from "lucide-react";
+import { ArrowRight , Terminal } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 const STAGGER_BASE = 0.1;
@@ -108,7 +108,6 @@ export function HeroSection() {
               hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 w-full"
           >
             Begin Mission
-            <Zap size={16} fill="currentColor" />
           </Button>
         </Link>
         <Link href="#features" className="w-full sm:w-auto">

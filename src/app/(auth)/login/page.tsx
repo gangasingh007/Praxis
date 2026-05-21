@@ -12,7 +12,6 @@ import {
   EyeOff,
   Terminal,
   Shield,
-  Zap,
   CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
