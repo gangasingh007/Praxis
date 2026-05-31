@@ -34,12 +34,14 @@ interface PomodoroState {
   variation: PomodoroVariation;
   sessions: number;
   maxSessions: number;
+  selectedTaskId: string | null;
   
   start: () => void;
   pause: () => void;
   reset: () => void;
   setMode: (mode: TimerMode) => void;
   setVariation: (variation: PomodoroVariation) => void;
+  setSelectedTaskId: (taskId: string | null) => void;
   tick: () => void;
   completeSession: () => void;
   skipMode: () => void;
@@ -52,6 +54,7 @@ export const usePomodoro = create<PomodoroState>((set, get) => ({
   mode: 'focus',
   sessions: 0,
   maxSessions: 4,
+  selectedTaskId: null,
   
   start: () => set({ isRunning: true }),
   pause: () => set({ isRunning: false }),
@@ -69,6 +72,7 @@ export const usePomodoro = create<PomodoroState>((set, get) => ({
     timeLeft: VARIATIONS[variation].durations[state.mode],
     isRunning: false
   })),
+  setSelectedTaskId: (selectedTaskId) => set({ selectedTaskId }),
   tick: () => set((state) => {
     if (state.timeLeft <= 1) {
       if (state.mode === 'focus') {
