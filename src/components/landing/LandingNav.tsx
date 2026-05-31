@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
@@ -31,7 +32,7 @@ interface LandingNavProps {
 export function LandingNav({ session }: LandingNavProps) {
   const [scrolled, setScrolled] = useState(false);
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
-  const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
+  const pathname = usePathname() ?? "";
   const isAuthenticated = !!session;
 
   useEffect(() => {
@@ -64,7 +65,7 @@ export function LandingNav({ session }: LandingNavProps) {
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between gap-6">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-          <span className="font-black tracking-tighter text-xl uppercase italic">
+          <span className="font-black tracking-tighter text-3xl uppercase italic">
             Praxis<span className="text-primary">.</span>
           </span>
         </Link>

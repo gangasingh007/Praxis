@@ -64,7 +64,7 @@ export function Sidebar() {
       {/* Sidebar Sidebar */}
       <aside 
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex flex-col bg-card/60 backdrop-blur-xl border-r border-border transition-all duration-300 lg:static",
+          "fixed inset-y-0 left-0 z-50 flex flex-col bg-background/70 backdrop-blur-xl border-r border-border transition-all duration-300 lg:static",
           isCollapsed ? "w-20" : "w-64",
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
