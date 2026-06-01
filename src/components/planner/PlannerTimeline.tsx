@@ -11,7 +11,7 @@ interface PlannerTimelineProps {
   tasks: Task[];
   currentHourSlot: string;
   currentMinute: number;
-  onEditTask: (task: Task) => void;
+  onClickTask: (task: Task) => void;
   onUpdateTaskDuration?: (taskId: string, durationMinutes: number) => void;
 }
 
@@ -19,7 +19,7 @@ export function PlannerTimeline({
   tasks,
   currentHourSlot,
   currentMinute,
-  onEditTask,
+  onClickTask,
   onUpdateTaskDuration,
 }: PlannerTimelineProps) {
   // Calculate layout for all scheduled tasks
@@ -80,7 +80,7 @@ export function PlannerTimeline({
                 title={task.title}
                 priority={task.priority?.toUpperCase() as any}
                 subjectColor={task.subject?.colorCode}
-                onClick={() => onEditTask(task)}
+                onClick={() => onClickTask(task)}
                 onResizeEnd={(newDuration) => onUpdateTaskDuration?.(task.id, newDuration)}
                 absoluteStyle={{
                   top: `${task.position.top}px`,

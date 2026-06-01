@@ -1,1 +1,1 @@
-draggable feature is done just have to work on the UI UX of the dragging and dropping 
+Work on the UI UX primitives and make the draggable feature more smooth and user friendly and make the sidebar collapsing smooth and responsive.

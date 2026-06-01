@@ -7,12 +7,12 @@ import type { Task } from "../../../types/index";
 
 interface SidebarInboxTabProps {
   unscheduledTasks: Task[];
-  onEditTask: (task: Task) => void;
+  onClickTask: (task: Task) => void;
 }
 
 export function SidebarInboxTab({
   unscheduledTasks,
-  onEditTask,
+  onClickTask,
 }: SidebarInboxTabProps) {
   const count = unscheduledTasks.length;
   const isEmpty = count === 0;
@@ -51,7 +51,7 @@ export function SidebarInboxTab({
               title={task.title}
               priority={task.priority?.toUpperCase() as "LOW" | "MEDIUM" | "HIGH" | undefined}
               subjectColor={task.subject?.colorCode}
-              onClick={() => onEditTask(task)}
+              onClick={() => onClickTask(task)}
             />
           ))}
 

@@ -5,6 +5,7 @@ import { DndContext, DragEndEvent, closestCenter } from "@dnd-kit/core";
 import { useTasks } from "@/hooks/use-tasks";
 import { getSubjects } from "@/actions/task-actions";
 import { TaskModal } from "./TaskModal";
+import { TaskDetailModal } from "./TaskDetailModal";
 import { PlannerHeader } from "./PlannerHeader";
 import { PlannerTimeline } from "./PlannerTimeline";
 import { PlannerSidebar } from "./PlannerSidebar";
@@ -32,21 +33,37 @@ export function PlannerBoard() {
   }, []);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
   const openAddModal = useCallback(() => {
     setSelectedTask(null);
     setIsModalOpen(true);
+    setIsDetailModalOpen(false);
+  }, []);
+
+  const openDetailModal = useCallback((task: Task) => {
+    setSelectedTask(task);
+    setIsDetailModalOpen(true);
+    setIsModalOpen(false);
   }, []);
 
   const openEditModal = useCallback((task: Task) => {
     setSelectedTask(task);
     setIsModalOpen(true);
+    setIsDetailModalOpen(false);
   }, []);
 
   const closeModal = useCallback(() => {
     setIsModalOpen(false);
+    setIsDetailModalOpen(false);
     setSelectedTask(null);
+  }, []);
+
+  const handleEditFromDetail = useCallback((task: Task) => {
+    setSelectedTask(task);
+    setIsDetailModalOpen(false);
+    setIsModalOpen(true);
   }, []);
 
   const handleSaveTask = useCallback(
@@ -117,7 +134,7 @@ export function PlannerBoard() {
             tasks={tasks}
             currentHourSlot={currentHourSlot}
             currentMinute={currentMinute}
-            onEditTask={openEditModal}
+            onClickTask={openDetailModal}
             onUpdateTaskDuration={handleUpdateTaskDuration}
           />
 
@@ -125,10 +142,18 @@ export function PlannerBoard() {
             currentDate={currentDate}
             onDateSelect={setCurrentDate}
             unscheduledTasks={unscheduledTasks}
-            onEditTask={openEditModal}
+            onClickTask={openDetailModal}
           />
         </div>
       </div>
+
+      <TaskDetailModal
+        isOpen={isDetailModalOpen}
+        onClose={closeModal}
+        onEdit={handleEditFromDetail}
+        onDelete={handleDeleteTask}
+        task={selectedTask}
+      />
 
       <TaskModal
         isOpen={isModalOpen}

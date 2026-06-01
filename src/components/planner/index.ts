@@ -4,6 +4,8 @@ export { PlannerHeader } from "./PlannerHeader";
 export { PlannerTimeline } from "./PlannerTimeline";
 export { PlannerSidebar } from "./PlannerSidebar";
 export { PlannerLoadingState } from "./PlannerLoadingState";
+export { TaskModal } from "./TaskModal";
+export { TaskDetailModal } from "./TaskDetailModal";
 export { GoalDashboard } from "./GoalDashboard";
 export { TIME_SLOTS, PERIOD_LABELS, toHourSlot, taskTimeSlot } from "./constants/time";
 export type { SidebarTab } from "./sidebar/SidebarTabStrip";
