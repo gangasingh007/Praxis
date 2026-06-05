@@ -1,7 +1,13 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { DndContext, DragEndEvent, closestCenter } from "@dnd-kit/core";
+import { 
+  DndContext, 
+  DragEndEvent, 
+  DragStartEvent,
+  DragOverlay,
+  closestCenter 
+} from "@dnd-kit/core";
 import { useTasks } from "@/hooks/use-tasks";
 import { getSubjects } from "@/actions/task-actions";
 import { TaskModal } from "./TaskModal";
@@ -10,6 +16,7 @@ import { PlannerHeader } from "./PlannerHeader";
 import { PlannerTimeline } from "./PlannerTimeline";
 import { PlannerSidebar } from "./PlannerSidebar";
 import { PlannerLoadingState } from "./PlannerLoadingState";
+import { TaskCard } from "./TaskCard";
 import { taskTimeSlot, toHourSlot } from "./constants/time";
 import type { Task } from "../../types";
 
@@ -18,6 +25,8 @@ export function PlannerBoard() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const { tasks, moveTask, addTask, updateTaskDetails, removeTask, isLoading } =
     useTasks(currentDate);
+
+  const [activeId, setActiveId] = useState<string | null>(null);
 
   const [currentTime, setCurrentTime] = useState(new Date());
   useEffect(() => {
@@ -89,8 +98,13 @@ export function PlannerBoard() {
     [removeTask, closeModal]
   );
 
+  const handleDragStart = useCallback((event: DragStartEvent) => {
+    setActiveId(event.active.id as string);
+  }, []);
+
   const handleDragEnd = useCallback(
     ({ active, over }: DragEndEvent) => {
+      setActiveId(null);
       if (!over) return;
       const taskId = active.id as string;
       const slot = over.id as string;
@@ -118,13 +132,18 @@ export function PlannerBoard() {
   const currentHourSlot = toHourSlot(currentTime);
   const currentMinute = currentTime.getMinutes();
   const unscheduledTasks = tasks.filter((t) => !t.startTime);
+  const activeTask = tasks.find((t) => t.id === activeId);
 
   if (isLoading && tasks.length === 0) {
     return <PlannerLoadingState />;
   }
 
   return (
-    <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+    <DndContext 
+      collisionDetection={closestCenter} 
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
       <div className="flex flex-col h-full overflow-hidden bg-background">
 
         <PlannerHeader onAddTask={openAddModal} />
@@ -146,6 +165,21 @@ export function PlannerBoard() {
           />
         </div>
       </div>
+
+      <DragOverlay dropAnimation={{
+        duration: 300,
+        easing: 'cubic-bezier(0.18, 0.67, 0.6, 1.22)',
+      }}>
+        {activeTask ? (
+          <TaskCard
+            id={activeTask.id}
+            title={activeTask.title}
+            priority={activeTask.priority?.toUpperCase() as any}
+            subjectColor={activeTask.subject?.colorCode}
+            isOverlay
+          />
+        ) : null}
+      </DragOverlay>
 
       <TaskDetailModal
         isOpen={isDetailModalOpen}
