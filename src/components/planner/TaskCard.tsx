@@ -89,19 +89,26 @@ export function TaskCard({
     ...absoluteStyle,
   };
 
-  const priorityColors = {
-    URGENT: "border-rose-500 bg-rose-50 dark:bg-rose-950 text-rose-900 dark:text-rose-100 shadow-md",
-    HIGH: "border-orange-500 bg-orange-50 dark:bg-orange-950 text-orange-900 dark:text-orange-100 shadow-sm",
-    MEDIUM: "border-amber-500 bg-amber-50 dark:bg-amber-950 text-amber-900 dark:text-amber-100 shadow-sm",
-    LOW: "border-blue-500 bg-blue-50 dark:bg-blue-950 text-blue-900 dark:text-blue-100 shadow-sm",
+  const priorityStyles = {
+    URGENT: {
+      container: "border-rose-500/30 bg-rose-500/5 dark:bg-rose-500/10 text-rose-900 dark:text-rose-100 shadow-rose-500/10",
+      badge: "bg-rose-500/10 text-rose-700 dark:text-rose-300 border-rose-500/20",
+    },
+    HIGH: {
+      container: "border-orange-500/30 bg-orange-500/5 dark:bg-orange-500/10 text-orange-900 dark:text-orange-100 shadow-orange-500/10",
+      badge: "bg-orange-500/10 text-orange-700 dark:text-orange-300 border-orange-500/20",
+    },
+    MEDIUM: {
+      container: "border-amber-500/30 bg-amber-500/5 dark:bg-amber-500/10 text-amber-900 dark:text-amber-100 shadow-amber-500/10",
+      badge: "bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/20",
+    },
+    LOW: {
+      container: "border-blue-500/30 bg-blue-500/5 dark:bg-blue-500/10 text-blue-900 dark:text-blue-100 shadow-blue-500/10",
+      badge: "bg-blue-500/10 text-blue-700 dark:text-blue-300 border-blue-500/20",
+    },
   };
 
-  const priorityBadge = {
-    URGENT: "bg-rose-100 dark:bg-rose-900 text-rose-700 dark:text-rose-200 border-rose-200 dark:border-rose-800",
-    HIGH: "bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-200 border-orange-200 dark:border-orange-800",
-    MEDIUM: "bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-200 border-amber-200 dark:border-amber-800",
-    LOW: "bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-200 border-blue-200 dark:border-blue-800",
-  };
+  const currentPriorityStyle = priorityStyles[priority as keyof typeof priorityStyles] || priorityStyles.MEDIUM;
 
   // const currentHeight = visualHeight !== null ? visualHeight : (Number(absoluteStyle?.height) || 0);
   // const snappedHeightPreview = Math.round(currentHeight / 20) * 20;
@@ -125,19 +132,19 @@ export function TaskCard({
         mass: 0.8
       }}
       className={cn(
-        "group flex flex-col p-2.5 rounded-xl border cursor-pointer relative overflow-hidden",
+        "group flex flex-col p-2.5 rounded-xl border cursor-pointer relative overflow-hidden backdrop-blur-sm",
         !absoluteStyle && "h-16 min-w-[160px] max-w-[220px]",
-        priorityColors[priority as keyof typeof priorityColors] || priorityColors.MEDIUM,
+        currentPriorityStyle.container,
         isDragging && "opacity-20 ring-4 ring-primary/20 shadow-2xl scale-[1.02]",
         isResizing && "ring-2 ring-primary/40 shadow-2xl z-50 transition-none",
         isOverlay && "opacity-100 shadow-2xl scale-105 rotate-1 cursor-grabbing ring-2 ring-primary border-primary z-[100]",
-        !isDragging && !isResizing && !isOverlay && "transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5",
+        !isDragging && !isResizing && !isOverlay && "transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 hover:border-primary/30",
         absoluteStyle && !isOverlay && "absolute"
       )}
       onClick={onClick}
     >
       {/* Premium shine effect */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/5 pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity" />
+      <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-black/5 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
       {/* Snap Indicator Ghost (while resizing) */}
       {isResizing && (
@@ -150,15 +157,15 @@ export function TaskCard({
       {/* Top Bar with Accent and Drag Handle */}
       <div className="flex items-center gap-2 mb-2 shrink-0 relative z-10">
         <div 
-          className="w-3 h-1.5 rounded-full shrink-0 shadow-sm" 
+          className="w-2.5 h-2.5 rounded-full shrink-0 shadow-sm ring-2 ring-background" 
           style={{ backgroundColor: subjectColor || "var(--muted)" }} 
         />
         <div 
           {...listeners} 
           {...attributes}
-          className="cursor-grab active:cursor-grabbing p-1 hover:bg-foreground/10 rounded-md transition-colors shrink-0 opacity-0 group-hover:opacity-100"
+          className="cursor-grab active:cursor-grabbing p-1 hover:bg-foreground/5 rounded-md transition-colors shrink-0 opacity-0 group-hover:opacity-100"
         >
-          <GripVertical className="w-3.5 h-3.5 text-muted-foreground" />
+          <GripVertical className="w-3 h-3 text-muted-foreground" />
         </div>
         
         <div className="flex-1" />
@@ -166,9 +173,9 @@ export function TaskCard({
         {absoluteStyle && (
           <motion.div 
             layout="position"
-            className="flex items-center gap-1.5 text-[10px] font-mono font-bold text-muted-foreground bg-foreground/5 px-2 py-0.5 rounded-full border border-foreground/5 backdrop-blur-sm"
+            className="flex items-center gap-1.5 text-[10px] font-medium text-muted-foreground bg-background/50 backdrop-blur-md px-2 py-0.5 rounded-full border border-foreground/5 shadow-sm"
           >
-            <Clock size={10} />
+            <Clock size={10} className="text-primary/70" />
             {durationLabel}
           </motion.div>
         )}
@@ -176,13 +183,13 @@ export function TaskCard({
 
       {/* Title and Badge */}
       <div className="flex flex-col flex-1 min-w-0 text-left overflow-hidden relative z-10">
-        <span className="text-[13px] font-bold truncate tracking-tight text-foreground leading-tight group-hover:text-primary transition-colors">
+        <span className="text-[13px] font-semibold truncate tracking-tight text-foreground leading-tight group-hover:text-primary transition-colors duration-300">
           {title}
         </span>
         <div className="flex items-center gap-2 mt-auto pt-1">
           <span className={cn(
-            "text-[9px] font-black px-1.5 py-0.5 rounded-md uppercase tracking-wider border shadow-sm",
-            priorityBadge[priority as keyof typeof priorityBadge] || priorityBadge.MEDIUM
+            "text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider border shadow-sm transition-colors duration-300",
+            currentPriorityStyle.badge
           )}>
             {priority}
           </span>

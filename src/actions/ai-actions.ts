@@ -9,18 +9,30 @@ const groq = new Groq({
 export async function generateHabitReward(habitName: string, streak: number) {
   try {
     const prompt = `
-      The user just completed their daily habit: "${habitName}".
+      You are a motivational micro-copy generator for a habit-tracking app.
+
+      The user has just completed a habit: "${habitName}".
       Their current streak is ${streak} days.
-      Write a highly engaging, 1-2 sentence message to reward them. 
-      If the streak is under 3 days, be encouraging.
-      If the streak is over 7 days, be highly praising and emphasize consistency.
-      If the streak is exactly 1, welcome them to the grind.
-      Tone: Modern, slightly edgy, cyberpunk-productivity vibe. No emojis.
-    `;
+
+      Write a single, highly engaging message (1–2 sentences max) that rewards their action and reinforces consistency.
+
+      Rules:
+      - If streak = 1: welcome them into the grind and acknowledge the first step.
+      - If streak is 2–3: keep it lightly encouraging and build momentum.
+      - If streak is 4–7: reinforce progress and growing discipline.
+      - If streak > 7: be highly praising, emphasize identity-building and consistency.
+      - Never be generic or robotic — make it feel sharp, modern, and intentional.
+      - Tone: cyberpunk productivity, slightly edgy, confident, and energetic.
+      - Avoid emojis, hashtags, and clichés like "keep it up" or "great job" unless reworded creatively.
+      - Do not exceed 2 sentences under any circumstance.
+      - End with forward-driving energy (implied momentum, not questions).
+
+      Output only the message. No explanations.
+      `;
 
     const chatCompletion = await groq.chat.completions.create({
       messages: [{ role: "user", content: prompt }],
-      model: "llama3-8b-8192", 
+      model: "llama-3.1-8b-instant", 
       temperature: 0.7,
       max_tokens: 100,
     });
