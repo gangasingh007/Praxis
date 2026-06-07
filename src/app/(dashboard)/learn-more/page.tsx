@@ -4,7 +4,7 @@ export default function LearnMorePage() {
       <article className="space-y-12">
         <header className="space-y-4">
           <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight italic">
-            The Praxis<span className="text-primary">.</span> <br />Methodology
+            The Praxis<span className="text-primary">.</span> Methodology
           </h1>
           <p className="text-xl text-muted-foreground font-medium italic">
             A System for Cognitive Management and High-Velocity Output

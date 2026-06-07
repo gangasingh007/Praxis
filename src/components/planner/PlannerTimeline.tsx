@@ -45,10 +45,6 @@ export function PlannerTimeline({
           Day Timeline
         </h2>
         <div className="flex items-center gap-2">
-          <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-          <span className="text-[10px] font-mono font-bold text-muted-foreground/40 uppercase tracking-widest">
-            {TIME_SLOTS.length} blocks
-          </span>
         </div>
       </div>
 
