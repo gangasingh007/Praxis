@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { loginAction } from "@/actions/auth-actions";
 import Link from "next/link";
 import {
@@ -42,8 +43,10 @@ const PARTICLES = [
 ];
 
 export default function LoginPage() {
+  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingGoogle, setIsLoadingGoogle] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const [emailValue, setEmailValue] = useState("");
@@ -56,14 +59,31 @@ export default function LoginPage() {
   async function handleSubmit(formData: FormData) {
     setIsLoading(true);
     setError(null);
-    const result = await loginAction(formData);
-    if (result?.error) {
-      setError(result.error);
+    try {
+      const result = await loginAction(formData);
+      if (result?.error) {
+        setError(result.error);
+        setIsLoading(false);
+      } else {
+        setSuccess(true);
+        // Delay redirect to show success state
+        setTimeout(() => {
+          router.push("/planner");
+        }, 2000);
+      }
+    } catch (err) {
+      setError("Authentication failed. Please check your connection.");
       setIsLoading(false);
-    } else {
-      setSuccess(true);
     }
   }
+
+  const handleGoogleLogin = () => {
+    setIsLoadingGoogle(true);
+    // Simulate OAuth delay
+    setTimeout(() => {
+      setIsLoadingGoogle(false);
+    }, 2000);
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center relative px-4 overflow-hidden">
@@ -337,32 +357,38 @@ export default function LoginPage() {
                 {/* OAuth placeholder */}
                 <button
                   type="button"
-                  className="w-full h-11 rounded-xl border border-border/40 bg-background/20 hover:bg-background/40 hover:border-border/60 transition-all duration-300 flex items-center justify-center gap-2 text-xs font-mono uppercase tracking-widest text-muted-foreground hover:text-foreground"
+                  onClick={handleGoogleLogin}
+                  disabled={isLoadingGoogle || isLoading}
+                  className="w-full h-11 rounded-xl border border-border/40 bg-background/20 hover:bg-background/40 hover:border-border/60 transition-all duration-300 flex items-center justify-center gap-2 text-xs font-mono uppercase tracking-widest text-muted-foreground hover:text-foreground disabled:opacity-50 disabled:pointer-events-none"
                 >
-                  {/* Google "G" SVG */}
-                  <svg className="w-4 h-4" viewBox="0 0 24 24">
-                    <path
-                      fill="currentColor"
-                      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                      opacity=".7"
-                    />
-                    <path
-                      fill="currentColor"
-                      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                      opacity=".5"
-                    />
-                    <path
-                      fill="currentColor"
-                      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                      opacity=".3"
-                    />
-                    <path
-                      fill="currentColor"
-                      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                      opacity=".9"
-                    />
-                  </svg>
-                  Continue with Google
+                  {isLoadingGoogle ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    /* Google "G" SVG */
+                    <svg className="w-4 h-4" viewBox="0 0 24 24">
+                      <path
+                        fill="currentColor"
+                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                        opacity=".7"
+                      />
+                      <path
+                        fill="currentColor"
+                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                        opacity=".5"
+                      />
+                      <path
+                        fill="currentColor"
+                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                        opacity=".3"
+                      />
+                      <path
+                        fill="currentColor"
+                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                        opacity=".9"
+                      />
+                    </svg>
+                  )}
+                  {isLoadingGoogle ? "Connecting..." : "Continue with Google"}
                 </button>
               </form>
             )}

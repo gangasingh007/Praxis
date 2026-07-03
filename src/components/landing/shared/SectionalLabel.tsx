@@ -12,14 +12,16 @@ export default function SectionLabel({ label, icon, className }: SectionLabelPro
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-2 px-3 py-1.5 rounded-full",
+        "inline-flex items-center gap-2 px-4 py-1.5 rounded-full",
         "bg-primary/10 border border-primary/20 text-primary",
-        "text-xs font-mono font-bold uppercase tracking-widest",
-        "shadow-[0_0_20px_hsl(var(--primary)/0.15)]",
+        "ring-1 ring-inset ring-primary/10",
+        "text-[11px] font-mono font-bold uppercase tracking-widest",
+        "shadow-md shadow-primary/15",
         className
       )}
     >
       {icon ?? <Terminal size={12} />}
+      <span className="text-primary/40 text-[9px] select-none" aria-hidden>·</span>
       {label}
     </div>
   );

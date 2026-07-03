@@ -32,7 +32,7 @@ export async function registerAction(formData: FormData) {
 
   await login({ id: user.id, email: user.email, name: user.name });
   
-  redirect("/planner");
+  return { success: true };
 }
 
 export async function loginAction(formData: FormData) {
@@ -50,7 +50,7 @@ export async function loginAction(formData: FormData) {
 
   await login({ id: user.id, email: user.email, name: user.name });
   
-  redirect("/planner");
+  return { success: true };
 }
 
 export async function logoutAction() {

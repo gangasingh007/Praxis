@@ -31,9 +31,10 @@ export function AnimatedCard({
       className={cn(
         "group relative rounded-2xl bg-card border border-border/60",
         "hover:border-primary/40 backdrop-blur-xl",
-        "transition-all duration-500",
-        "shadow-sm hover:shadow-[0_8px_40px_hsl(var(--primary)/0.08)]",
-        "overflow-hidden",
+        "transition-all duration-300 ease-out",
+        "shadow-sm hover:shadow-lg hover:shadow-primary/10",
+        "hover:scale-[1.01]",
+        "cursor-pointer overflow-hidden",
         className
       )}
     >

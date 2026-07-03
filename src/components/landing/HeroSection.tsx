@@ -4,9 +4,9 @@
 import { motion, Easing } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import  SectionLabel from "./shared/SectionalLabel";
+import SectionLabel from "./shared/SectionalLabel";
 import { GlowOrb } from "./shared/GlowOrb";
-import { ArrowRight , Terminal } from "lucide-react";
+import { ArrowRight, Terminal } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 const STAGGER_BASE = 0.1;
@@ -26,9 +26,9 @@ const statPills = [
 
 export function HeroSection() {
   return (
-    <section className="relative flex flex-col items-center text-center pt-24 pb-16 px-4 overflow-hidden">
+    <section className="relative flex flex-col items-center text-center pt-32 sm:pt-36 pb-24 px-4 overflow-hidden">
       {/* Background radial glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-primary/5 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Glow orbs */}
       <GlowOrb
@@ -43,11 +43,11 @@ export function HeroSection() {
       />
 
       {/* Badge */}
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="mb-8"
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="mb-10"
       >
         <SectionLabel
           label="Cognitive OS v1.0"
@@ -62,19 +62,19 @@ export function HeroSection() {
         transition={{ duration: 0.8, delay: 0.1 }}
         className="relative"
       >
-        <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-[104px] font-black tracking-tighter uppercase leading-[0.85] max-w-5xl">
+        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[96px] font-black tracking-tighter uppercase leading-[0.88] max-w-5xl">
           Stop Managing.{" "}
           <br className="hidden sm:block" />
-          <span className="relative inline-block mt-2">
-            <span className="text-transparent bg-clip-text bg-gradient-to-br from-primary via-primary/80 to-primary/40">
+          <span className="relative inline-block mt-3">
+            <span className="text-transparent bg-clip-text bg-gradient-to-br from-primary via-primary/90 to-primary/50">
               Start Executing.
             </span>
-            {/* Animated accent */}
+            {/* Animated accent underline */}
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: "100%" }}
-              transition={{ duration: 1, delay: 0.8, ease: "circOut" }}
-              className="absolute -bottom-2 left-0 h-[4px] bg-primary/30 rounded-full"
+              transition={{ duration: 1.2, delay: 0.8, ease: "circOut" }}
+              className="absolute -bottom-2 left-0 h-[3px] bg-gradient-to-r from-primary/50 via-primary/30 to-transparent rounded-full"
             />
           </span>
         </h1>
@@ -98,13 +98,14 @@ export function HeroSection() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.6 }}
-        className="mt-12 flex flex-col sm:flex-row gap-4 items-center"
+        className="mt-14 flex flex-col sm:flex-row gap-4 items-center"
       >
         <Link href="/login" className="w-full sm:w-auto">
           <Button
             size="lg"
-            className="h-14 px-10 gap-3 text-background font-mono font-black uppercase tracking-widest text-sm rounded-2xl
-              bg-primary shadow-[0_0_40px_rgba(var(--primary-rgb),0.3)] hover:shadow-[0_0_60px_rgba(var(--primary-rgb),0.5)]
+            className="h-14 px-10 gap-3 text-background font-mono font-black uppercase tracking-widest text-sm rounded-2xl cursor-pointer
+              bg-primary ring-2 ring-primary/20 ring-offset-2 ring-offset-background
+              shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/35
               hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 w-full"
           >
             Begin Mission
@@ -114,7 +115,7 @@ export function HeroSection() {
           <Button
             size="lg"
             variant="outline"
-            className="h-14 px-10 gap-3 font-mono font-bold uppercase tracking-widest text-sm rounded-2xl
+            className="h-14 px-10 gap-3 font-mono font-bold uppercase tracking-widest text-sm rounded-2xl cursor-pointer
               border-border/60 hover:border-primary/40 hover:bg-primary/5
               transition-all duration-300 w-full"
           >
@@ -127,12 +128,12 @@ export function HeroSection() {
       {/* Stat pills */}
       <motion.div
         {...fadeUp(STAGGER_BASE * 4)}
-        className="mt-12 flex flex-wrap items-center justify-center gap-3"
+        className="mt-16 flex flex-wrap items-center justify-center gap-4"
       >
         {statPills.map((stat) => (
           <div
             key={stat.label}
-            className="flex items-center gap-2.5 px-4 py-2 rounded-full bg-card border border-border/60 shadow-sm"
+            className="flex items-center gap-3 px-5 py-2.5 rounded-full bg-card border border-border/60 shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-200"
           >
             <span className="text-sm font-black text-foreground font-mono">
               {stat.value}
@@ -144,7 +145,7 @@ export function HeroSection() {
         ))}
         <Badge
           variant="secondary"
-          className="px-3 py-2 rounded-full font-mono text-xs font-bold uppercase tracking-wide bg-primary/10 text-primary border-primary/20"
+          className="px-4 py-2.5 rounded-full font-mono text-xs font-bold uppercase tracking-wide bg-primary/10 text-primary border-primary/20"
         >
           Free to Start
         </Badge>

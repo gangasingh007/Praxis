@@ -71,12 +71,12 @@ const features = [
 ];
 
 const badgeColorMap: Record<string, string> = {
-  Core: "bg-blue-500/10 text-blue-500 border-blue-500/20",
-  Focus: "bg-orange-500/10 text-orange-500 border-orange-500/20",
-  Habit: "bg-green-500/10 text-green-500 border-green-500/20",
-  Analytics: "bg-violet-500/10 text-violet-500 border-violet-500/20",
-  Automation: "bg-yellow-500/10 text-yellow-600 border-yellow-500/20",
-  AI: "bg-primary/10 text-primary border-primary/20",
+  Core: "bg-primary/10 text-primary border-primary/20",
+  Focus: "bg-chart-1/10 text-chart-1 border-chart-1/20",
+  Habit: "bg-chart-2/10 text-chart-2 border-chart-2/20",
+  Analytics: "bg-chart-4/10 text-chart-4 border-chart-4/20",
+  Automation: "bg-chart-3/10 text-chart-3 border-chart-3/20",
+  AI: "bg-chart-5/10 text-chart-5 border-chart-5/20",
 };
 
 const containerVariants = {
@@ -93,7 +93,13 @@ function FeatureCard({ feature }: FeatureCardProps) {
   const isLarge = feature.size === "lg";
 
   return (
-    <AnimatedCard className={cn("p-7", isLarge && "p-8", feature.span)}>
+    <AnimatedCard
+      className={cn(
+        "p-8 cursor-pointer hover:translate-y-[-2px] transition-transform duration-200",
+        isLarge && "p-10",
+        feature.span
+      )}
+    >
       <div
         className={cn(
           "flex gap-6",
@@ -103,27 +109,27 @@ function FeatureCard({ feature }: FeatureCardProps) {
         {/* Icon block */}
         <div
           className={cn(
-            "shrink-0 rounded-xl border border-border/60 bg-background",
+            "shrink-0 rounded-2xl border border-border/60 bg-background",
             "flex items-center justify-center",
             "group-hover:bg-primary/10 group-hover:border-primary/25",
             "transition-all duration-300",
-            isLarge ? "w-14 h-14" : "w-12 h-12"
+            isLarge ? "w-16 h-16" : "w-13 h-13"
           )}
         >
           <Icon
             className={cn(
               "text-primary",
-              isLarge ? "w-7 h-7" : "w-5 h-5"
+              isLarge ? "w-7 h-7" : "w-5.5 h-5.5"
             )}
           />
         </div>
 
         <div className="flex-1 min-w-0">
           {/* Badge + title row */}
-          <div className="flex items-center gap-2.5 mb-2.5 flex-wrap">
+          <div className="flex items-center gap-2.5 mb-3 flex-wrap">
             <span
               className={cn(
-                "inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-mono font-bold uppercase tracking-widest border",
+                "inline-flex items-center px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold uppercase tracking-widest border",
                 badgeColorMap[feature.badge] ??
                   "bg-muted text-muted-foreground border-border"
               )}
@@ -134,7 +140,7 @@ function FeatureCard({ feature }: FeatureCardProps) {
 
           <h3
             className={cn(
-              "font-black uppercase tracking-tight text-card-foreground mb-2",
+              "font-black uppercase tracking-tight text-card-foreground mb-3",
               isLarge ? "text-2xl" : "text-xl"
             )}
           >
@@ -143,7 +149,7 @@ function FeatureCard({ feature }: FeatureCardProps) {
 
           <p
             className={cn(
-              "text-muted-foreground leading-relaxed",
+              "text-muted-foreground leading-7",
               isLarge ? "text-base max-w-lg" : "text-sm"
             )}
           >
@@ -159,7 +165,7 @@ export function FeaturesSection() {
   return (
     <section id="features" className="relative scroll-mt-20">
       {/* Section header */}
-      <div className="text-center mb-16 space-y-4">
+      <div className="text-center mb-20 space-y-5">
         <SectionLabel label="System Architecture" />
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tighter">
           Built for{" "}
@@ -170,16 +176,16 @@ export function FeaturesSection() {
           capacity for deep, meaningful work.
         </p>
         {/* Accent line */}
-        <div className="h-px w-16 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto" />
+        <div className="h-px w-24 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto" />
       </div>
 
-      {/* Masonry-style grid */}
+      {/* Bento-style grid */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-80px" }}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-fr"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 auto-rows-fr"
       >
         {features.map((feature) => (
           <FeatureCard key={feature.title} feature={feature} />
