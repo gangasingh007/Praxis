@@ -244,8 +244,8 @@ async function main() {
 
   console.log("-----------------------------------------");
   console.log("DIVERSE SEED COMPLETED SUCCESSFULLY!");
-  console.log(`Test User Email: test@example.com`);
-  console.log(`Test User Password: password123`);
+  console.log(`Test User Email: gangasinggh1734@gmail.com`);
+  console.log(`Test User Password: 123456789`);
   console.log("-----------------------------------------");
 }
 

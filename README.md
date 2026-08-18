@@ -540,7 +540,7 @@ bunx prisma migrate dev --name fix_schema
 
 #### "Habit rewards endpoint returns 500 error"
 - Check Groq API quota (free tier has limits)
-- Verify LLaMA-3 model is available in your region
+- Verify GPT-OSS model is available in your region
 - Check server logs: `bun run dev` will show detailed errors
 
 ---
